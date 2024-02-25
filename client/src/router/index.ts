@@ -13,6 +13,11 @@ const router = createRouter({
       path: '/connect-room',
       name: 'connect',
       component: () => import('../views/ConnectRoom.vue')
+    },
+    {
+      path: '/room/:id',
+      name: 'room',
+      component: () => import('../views/StartingRoom.vue')
     }
   ]
 })

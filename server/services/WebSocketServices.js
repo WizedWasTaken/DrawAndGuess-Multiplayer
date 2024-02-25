@@ -1,6 +1,7 @@
 class WebSocketService {
   constructor(io) {
     this.io = io;
+    this.rooms = {};
   }
 
   initializeSocket() {
@@ -10,20 +11,78 @@ class WebSocketService {
       socket.on('joinRoom', (roomId) => {
         this.handleJoinRoom(socket, roomId);
       });
+      socket.on('createRoom', () => {
+        console.log('User is trying to create a room');
+        const roomID = this.generateRoomID();
+        this.rooms[roomID] = {
+          host: socket.id,
+          players: [socket.id],
+        };
+        console.log(`Room created: ${roomID}`);
+        socket.join(roomID);
+        socket.emit('room created', roomID);
+      });
 
       socket.on('disconnect', () => {
         console.log('User disconnected');
+
+        for (const room in this.rooms) {
+          if (this.rooms[room].players.includes(socket.id)) {
+            this.rooms[room].players = this.rooms[room].players.filter(
+              (player) => player !== socket.id
+            );
+
+            this.io.to(room).emit('roomJoined', {
+              roomId: room,
+              message: `User ${socket.id} has left the room.`,
+            });
+          }
+        }
+
+        for (const room in this.rooms) {
+          if (this.rooms[room].host === socket.id) {
+            delete this.rooms[room];
+          }
+        }
+
+        socket.leaveAll();
+
+        console.log(this.rooms);
       });
     });
   }
 
   handleJoinRoom(socket, roomId) {
+    const MAX_PLAYERS = 4;
+
+    if (!this.rooms[roomId]) {
+      socket.emit('error', `Room ${roomId} does not exist.`);
+      return;
+    }
+
+    if (this.rooms[roomId].players.includes(socket.id)) {
+      socket.emit('error', `User ${socket.id} is already in room ${roomId}.`);
+      return;
+    }
+
+    if (this.rooms[roomId].players.length >= MAX_PLAYERS) {
+      socket.emit('error', `Room ${roomId} is full.`);
+      return;
+    }
+
     socket.join(roomId);
-    console.log(`User joined room ${roomId}`);
+    this.rooms[roomId].players.push(socket.id);
+
     this.io.to(roomId).emit('roomJoined', {
       roomId: roomId,
-      message: 'A new user has joined the room.',
+      message: `User ${socket.id} has joined the room.`,
     });
+
+    socket.emit('joinedRoom', roomId);
+  }
+
+  generateRoomID() {
+    return Math.random().toString(36).substring(2, 9);
   }
 }
 

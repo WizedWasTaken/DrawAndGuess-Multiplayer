@@ -24,6 +24,7 @@ header {
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 10vh;
 
   .wrapper {
     max-width: 1200px;
