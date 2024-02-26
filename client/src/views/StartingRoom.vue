@@ -1,41 +1,37 @@
 <template>
-  <div>
-    <h1>Starting room</h1>
-    <ul>
-      <li v-for="player in players" :key="player.id">{{ player.name }}</li>
-    </ul>
+  <div class="chatbox">
+    <h2>Chat</h2>
+    <div class="chat-messages">
+      <!-- Use v-for to render messages -->
+      <div v-for="message in messages" :key="message.id">
+        <p>{{ message }}</p>
+      </div>
+    </div>
+    <input v-model="newMessage" @keyup.enter="sendMessage" placeholder="Type a message..." />
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, type Ref } from 'vue'
-import { useRoute } from 'vue-router'
-import io from 'socket.io-client'
-import type { Socket } from 'socket.io-client'
+import { ref, onMounted, onUnmounted, computed, watch } from 'vue'
+import { useWebSocketStore } from '@/stores/useWebSocketStore'
 
-interface Player {
-  id: string
-  name: string
-}
-
-const players = ref<Player[]>([])
-const socket: Ref<Socket | null> = ref(null)
-const route = useRoute()
+const webSocket = useWebSocketStore()
+const newMessage = ref('')
 
 onMounted(() => {
-  socket.value = io('http://localhost:3000') // Adjust URL as needed
-  socket.value.emit('joinRoom', route.params.roomId)
-
-  socket.value.on('newPlayer', (player: Player) => {
-    players.value.push(player)
-  })
-
-  // Listen for other events like playerLeft, gameStateUpdated, etc.
+  webSocket.initializeSocket()
 })
 
 onUnmounted(() => {
-  if (socket.value) {
-    socket.value.disconnect()
-  }
+  webSocket.disconnectSocket()
 })
+
+function sendMessage() {
+  if (newMessage.value.trim() !== '') {
+    webSocket.sendMessage(newMessage.value)
+    newMessage.value = ''
+  }
+}
+
+const messages = computed(() => webSocket.messages)
 </script>

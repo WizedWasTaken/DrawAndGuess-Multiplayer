@@ -15,8 +15,8 @@ const router = createRouter({
       component: () => import('../views/ConnectRoom.vue')
     },
     {
-      path: '/room/:id',
-      name: 'room',
+      path: '/game/:id',
+      name: 'game',
       component: () => import('../views/StartingRoom.vue')
     }
   ]

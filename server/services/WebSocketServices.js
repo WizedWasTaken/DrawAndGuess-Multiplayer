@@ -5,14 +5,14 @@ class WebSocketService {
   }
 
   initializeSocket() {
-    this.io.on('connection', (socket) => {
-      console.log('A user connected');
+    this.io.on("connection", (socket) => {
+      console.log("A user connected");
 
-      socket.on('joinRoom', (roomId) => {
+      socket.on("joinRoom", (roomId) => {
         this.handleJoinRoom(socket, roomId);
       });
-      socket.on('createRoom', () => {
-        console.log('User is trying to create a room');
+      socket.on("createRoom", () => {
+        console.log("User is trying to create a room");
         const roomID = this.generateRoomID();
         this.rooms[roomID] = {
           host: socket.id,
@@ -20,11 +20,16 @@ class WebSocketService {
         };
         console.log(`Room created: ${roomID}`);
         socket.join(roomID);
-        socket.emit('room created', roomID);
+        socket.emit("room created", roomID);
       });
 
-      socket.on('disconnect', () => {
-        console.log('User disconnected');
+      socket.on("message", (message) => {
+        console.log("Message received: ", message);
+        this.io.emit("message", message);
+      });
+
+      socket.on("disconnect", () => {
+        console.log("User disconnected");
 
         for (const room in this.rooms) {
           if (this.rooms[room].players.includes(socket.id)) {
@@ -32,7 +37,7 @@ class WebSocketService {
               (player) => player !== socket.id
             );
 
-            this.io.to(room).emit('roomJoined', {
+            this.io.to(room).emit("roomJoined", {
               roomId: room,
               message: `User ${socket.id} has left the room.`,
             });
@@ -56,29 +61,23 @@ class WebSocketService {
     const MAX_PLAYERS = 4;
 
     if (!this.rooms[roomId]) {
-      socket.emit('error', `Room ${roomId} does not exist.`);
+      socket.emit("error", `Room ${roomId} does not exist.`);
       return;
     }
 
     if (this.rooms[roomId].players.includes(socket.id)) {
-      socket.emit('error', `User ${socket.id} is already in room ${roomId}.`);
-      return;
-    }
-
-    if (this.rooms[roomId].players.length >= MAX_PLAYERS) {
-      socket.emit('error', `Room ${roomId} is full.`);
+      socket.emit("error", `User ${socket.id} is already in room ${roomId}.`);
       return;
     }
 
     socket.join(roomId);
     this.rooms[roomId].players.push(socket.id);
 
-    this.io.to(roomId).emit('roomJoined', {
+    this.io.to(roomId).emit("roomJoined", {
       roomId: roomId,
-      message: `User ${socket.id} has joined the room.`,
     });
 
-    socket.emit('joinedRoom', roomId);
+    socket.emit("joinedRoom", roomId);
   }
 
   generateRoomID() {
