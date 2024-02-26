@@ -12,7 +12,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, computed, watch } from 'vue'
+import { ref, onMounted, onUnmounted, computed } from 'vue'
 import { useWebSocketStore } from '@/stores/useWebSocketStore'
 
 const webSocket = useWebSocketStore()

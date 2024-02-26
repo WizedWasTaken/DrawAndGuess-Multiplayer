@@ -58,7 +58,7 @@ class WebSocketService {
   }
 
   handleJoinRoom(socket, roomId) {
-    const MAX_PLAYERS = 4;
+    const MAX_PLAYERS = 2;
 
     if (!this.rooms[roomId]) {
       socket.emit("error", `Room ${roomId} does not exist.`);
