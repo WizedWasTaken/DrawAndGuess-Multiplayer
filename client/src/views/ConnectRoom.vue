@@ -51,57 +51,23 @@ function setupWebSocket() {
  * Join a room
  * @returns void
  */
-const joinRoom = () => {
-  if (roomId.value.trim()) {
-    try {
-      console.log('Joining room', roomId.value)
-      webSocketStore.socket?.emit('joinRoom', roomId.value)
-      console.log('Attempting to join room', roomId.value)
-      webSocketStore.socket?.once('error', (message) => {
-        // TODO: Handle error
-        console.log('Error joining room:', message)
-      })
-      webSocketStore.socket?.once('joinedRoom', () => {
-        setValues(false, true)
-        redirectToGamepage(roomId.value)
-      })
-    } catch (error) {
-      console.error('Error joining room:', error)
-    }
+const joinRoom = async () => {
+  if (await webSocketStore.joinRoom(roomId.value)) {
+    redirectToGamepage(isIngameStore.roomId)
   } else {
-    alert('Indtast venligst et rum ID')
+    console.error('Error hosting game')
   }
 }
-
 /*
  * Host a game
  * @returns void
  */
-const hostGame = () => {
-  try {
-    webSocketStore.socket?.emit('createRoom')
-    webSocketStore.socket?.once('room created', (id) => {
-      roomId.value = id
-      setValues(true, true)
-      redirectToGamepage(id)
-    })
-  } catch (error) {
-    console.error('Error hosting game:', error)
+const hostGame = async () => {
+  if (await webSocketStore.hostRoom()) {
+    redirectToGamepage(isIngameStore.roomId)
+  } else {
+    console.error('Error hosting game')
   }
-}
-
-/*
- * Set values in the store
- * @param isHost - boolean
- * @param isIngame - boolean
- * @returns void
- */
-function setValues(isHost: boolean = false, isIngame: boolean = true) {
-  isIngameStore.setIsHost(isHost)
-  isIngameStore.setIsIngame(isIngame)
-  isIngameStore.setRoomId(roomId.value)
-  console.log('RoomID', roomId.value)
-  console.log('setValues: ', isIngameStore.isHost, isIngameStore.isIngame, isIngameStore.roomId)
 }
 
 /*
@@ -111,17 +77,7 @@ function setValues(isHost: boolean = false, isIngame: boolean = true) {
  */
 function redirectToGamepage(id: string) {
   console.log('Redirect to gamepage: ', id)
-  if (id.trim() === '' || id.trim() === undefined || id.trim() === null) {
-    console.log('Id.trim is true')
-    return false
-  }
-
-  try {
-    console.log('Redirect to gamepage: ', id)
-    router.push(`/game/${id}`)
-  } catch (error) {
-    console.error('Error redirecting to game page:', error)
-  }
+  router.push(`/game/${id}`)
 }
 
 /*

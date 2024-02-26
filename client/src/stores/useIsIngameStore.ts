@@ -7,17 +7,12 @@ export const useIsIngameStore = defineStore('isIngame', {
     roomId: ''
   }),
   actions: {
-    setIsIngame(value: boolean) {
-      console.log('setIsIngame', value)
-      this.isIngame = value
-    },
-    setIsHost(value: boolean) {
-      console.log('setIsHost', value)
-      this.isHost = value
-    },
-    setRoomId(value: string) {
-      console.log('setRoomId', value)
-      this.roomId = value
+    setValues(isIngame: boolean, isHost: boolean, roomId: string) {
+      console.log('setValues')
+      console.log(isIngame, isHost, roomId)
+      this.isIngame = isIngame
+      this.isHost = isHost
+      this.roomId = roomId
     }
   }
 })
