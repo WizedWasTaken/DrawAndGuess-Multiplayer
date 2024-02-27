@@ -5,107 +5,125 @@ class WebSocketService {
   }
 
   initializeSocket() {
-    this.io.on('connection', (socket) => {
-      console.log('A user connected');
+    this.io.on("connection", (socket) => {
+      console.log("A user connected");
 
-      socket.on('joinRoom', (roomId) => {
-        this.handleJoinRoom(socket, roomId);
+      socket.on("joinRoom", (roomId, username) => {
+        this.handleJoinRoom(socket, roomId, username);
       });
-      socket.on('createRoom', () => {
-        this.createRoom(socket);
-      });
-
-      socket.on('message', (username, message, socket) => {
-        message = username.trim();
-        username = 'Anonymous';
-        this.handleMessage(username, message, socket.roomId);
+      socket.on("createRoom", (username) => {
+        this.createRoom(socket, username);
       });
 
-      socket.on('leaveRoom', (roomId, socket, isHost) => {
-        console.log('leaveRoom', roomId, socket, isHost);
-        if (isHost) {
-          this.io.to(roomId).emit('roomLeft', {
-            roomId: roomId,
-            message: `Room ${roomId} has been closed by the host.`,
-          });
-          delete this.rooms[roomId];
-        }
+      socket.on("message", (username, message, roomId) => {
+        this.handleMessage(username, message, roomId);
       });
 
-      socket.on('disconnect', () => {
-        console.log('User disconnected');
+      socket.on("leaveRoom", (roomId, socket, isHost, username) => {
+        console.log("leaveRoom", roomId, socket, isHost, username);
+        this.handleLeaveRoom(roomId, socket, isHost, username);
+      });
 
-        for (const room in this.rooms) {
-          console.log('room', room, this.rooms[room].players, socket.id);
-          if (this.rooms[room].players.includes(socket.id)) {
-            this.rooms[room].players = this.rooms[room].players.filter(
-              (player) => player !== socket.id
-            );
-
-            this.io.to(room).emit('roomLeft', {
-              roomId: room,
-              message: `User ${socket.id} has left the room.`,
-            });
-          }
-        }
-
-        for (const room in this.rooms) {
-          if (this.rooms[room].host === socket.id) {
-            delete this.rooms[room];
-          }
-        }
+      socket.on("disconnect", () => {
+        console.log("User disconnected");
 
         socket.leaveAll();
-
-        console.log(this.rooms);
       });
+
+      setInterval(() => {
+        console.log(this.rooms);
+      }, 1000);
     });
   }
 
-  handleJoinRoom(socket, roomId) {
+  handleJoinRoom(socket, roomId, username) {
     // Hvis rummet ikke eksisterer
     if (!this.rooms[roomId]) {
-      socket.emit('error', `Room ${roomId} does not exist.`);
+      socket.emit("error", `Room ${roomId} does not exist.`);
       return;
     }
 
     // Er det her muligt lol 💀
-    if (this.rooms[roomId].players.includes(socket.id)) {
-      socket.emit('error', `User ${socket.id} is already in room ${roomId}.`);
+    if (this.rooms[roomId].users.hasOwnProperty(socket.id)) {
+      socket.emit("error", `${socket.id} er allerede i rum ${roomId}.`);
       return;
     }
 
     socket.join(roomId);
-    this.rooms[roomId].players.push(socket.id);
+    let newUser = new User(socket.id, username);
+    this.rooms[roomId].users.push(newUser);
 
-    this.io.to(roomId).emit('roomJoined', {
+    this.io.to(roomId).emit("roomJoined", {
       roomId: roomId,
     });
 
-    socket.emit('joinedRoom', roomId);
+    this.io.to(roomId).emit("message", {
+      username: "System",
+      message: `${username} har tilsluttet sig rummet.`,
+    });
+
+    const user = new User(socket.id, username);
+    this.rooms[roomId].users[socket.id];
+
+    this.io.to(roomId).emit("users", this.rooms[roomId].users);
+    socket.emit("joinedRoom", roomId);
+
+    const usersInRoom = Object.values(this.rooms[roomId].users);
+    this.io.to(roomId).emit("users", usersInRoom);
   }
 
   generateRoomID() {
     return Math.random().toString(36).substring(2, 9);
   }
 
-  createRoom(socket) {
+  createRoom(socket, username) {
     const roomID = this.generateRoomID();
+    const user = new User(socket.id, username);
     this.rooms[roomID] = {
-      host: socket.id,
-      players: [socket.id],
+      host: user,
+      users: { [socket.id]: user },
     };
     socket.join(roomID);
-    socket.emit('room created', roomID);
+    socket.emit("room created", roomID);
   }
 
   handleMessage(username, message, roomId) {
-    username = username || 'Anonymous';
-    console.log('message', username, message, roomId);
-    this.io.to(roomId).emit('message', {
+    username = username || "Anonymous";
+    console.log("message", username, message);
+    this.io.to(roomId).emit("message", {
       username,
       message,
     });
+  }
+
+  // Problemet er at den emitter til alle spillere i rummet uanset, selvom brugeren er host eller ej.
+  handleLeaveRoom(roomId, socket, isHost, username) {
+    if (isHost) {
+      this.io.to(roomId).emit("roomLeft", {
+        roomId: roomId,
+        message: `Rum ${roomId} er blevet lukket af hosten.`,
+      });
+      delete this.rooms[roomId].users[socket.id];
+    } else {
+      console.log("handleLeaveRoom", roomId, socket, isHost, username);
+      console.log(this.rooms[roomId].users);
+      this.rooms[roomId].users = this.rooms[roomId].users.filter(
+        (player) => player !== socket.id
+      );
+      this.io.to(roomId).emit("message", {
+        username: "System",
+        message: `${username} har forladt rummet.`,
+      });
+      const usersInRoom = Object.values(this.rooms[roomId].users);
+      this.io.to(roomId).emit("users", usersInRoom);
+    }
+  }
+}
+
+class User {
+  constructor(socketId, username) {
+    this.socketId = socketId;
+    this.username = username;
   }
 }
 

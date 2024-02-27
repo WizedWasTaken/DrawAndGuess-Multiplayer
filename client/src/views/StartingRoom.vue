@@ -1,18 +1,29 @@
 <template>
-  <div class="chatbox">
-    <h1>Din Kode: {{ roomID }}</h1>
-    <h2>Chat</h2>
-    <div class="chat-messages">
-      <!-- Use v-for to render messages -->
-      <div v-for="message in messages" :key="message.id">
-        <p>{{ message }}</p>
+  <div class="container">
+    <div class="chatbox">
+      <h1>Din Kode: {{ roomID }}</h1>
+      <h2>Chat</h2>
+      <div class="chat-messages">
+        <!-- Use v-for to render messages -->
+        <div v-for="message in messages" :key="message.id">
+          <div class="inline">
+            <span>{{ message.username }}:</span>
+            <p>{{ message.message }}</p>
+          </div>
+        </div>
+      </div>
+      <input
+        v-model="newMessage"
+        @keyup.enter="sendMessage"
+        placeholder="Skriv en besked til de andre brugere...."
+      />
+    </div>
+    <div class="user-list">
+      <h2>Brugere i rummet</h2>
+      <div v-for="user in users" :key="user.id">
+        <p>{{ user.username }}</p>
       </div>
     </div>
-    <input
-      v-model="newMessage"
-      @keyup.enter="sendMessage"
-      placeholder="Skriv en besked til de andre brugere...."
-    />
   </div>
 </template>
 
@@ -40,6 +51,7 @@ onMounted(async () => {
   } else {
     await router.push('/connect-room')
   }
+  webSocket.messages = []
 })
 
 onUnmounted(() => {
@@ -57,4 +69,20 @@ function sendMessage() {
 }
 
 const messages = computed(() => webSocket.messages)
+const users = computed(() => webSocket.users)
 </script>
+
+<style scoped lang="scss">
+.inline {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 4px;
+  span {
+    margin-right: 10px;
+  }
+  p {
+    margin: 0;
+  }
+}
+</style>

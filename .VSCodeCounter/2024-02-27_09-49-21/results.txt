@@ -1,0 +1,81 @@
+Date : 2024-02-27 09:49:21
+Directory : c:\Projekter\[Visualisering]\[V2]\SnegleRæsMultiplayer
+Total : 33 files,  9710 codes, 52 comments, 167 blanks, all 9929 lines
+
+Languages
++--------------------+------------+------------+------------+------------+------------+
+| language           | files      | code       | comment    | blank      | total      |
++--------------------+------------+------------+------------+------------+------------+
+| JSON               |          7 |      8,909 |          0 |          8 |      8,917 |
+| Vue                |          6 |        346 |          1 |         61 |        408 |
+| JavaScript         |          7 |        222 |         17 |         47 |        286 |
+| TypeScript         |          6 |        162 |         33 |         26 |        221 |
+| Markdown           |          1 |         29 |          0 |         18 |         47 |
+| SCSS               |          3 |         16 |          1 |          5 |         22 |
+| HTML               |          1 |         13 |          0 |          1 |         14 |
+| JSON with Comments |          1 |         11 |          0 |          1 |         12 |
+| Properties         |          1 |          2 |          0 |          0 |          2 |
++--------------------+------------+------------+------------+------------+------------+
+
+Directories
++--------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                             | files      | code       | comment    | blank      | total      |
++--------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                                |         33 |      9,710 |         52 |        167 |      9,929 |
+| client                                                                                           |         24 |      4,002 |         36 |        120 |      4,158 |
+| client (Files)                                                                                   |         11 |      3,496 |          3 |         32 |      3,531 |
+| client\src                                                                                       |         13 |        506 |         33 |         88 |        627 |
+| client\src (Files)                                                                               |          2 |         70 |          0 |         21 |         91 |
+| client\src\assets                                                                                |          3 |         16 |          1 |          5 |         22 |
+| client\src\assets\scss                                                                           |          3 |         16 |          1 |          5 |         22 |
+| client\src\components                                                                            |          1 |         54 |          0 |         10 |         64 |
+| client\src\router                                                                                |          1 |         23 |          0 |          3 |         26 |
+| client\src\stores                                                                                |          2 |        112 |         31 |         14 |        157 |
+| client\src\views                                                                                 |          4 |        231 |          1 |         35 |        267 |
+| server                                                                                           |          9 |      5,708 |         16 |         47 |      5,771 |
+| server (Files)                                                                                   |          4 |      5,539 |         10 |         16 |      5,565 |
+| server\controllers                                                                               |          1 |         15 |          0 |          3 |         18 |
+| server\models                                                                                    |          2 |         66 |          3 |          8 |         77 |
+| server\routes                                                                                    |          1 |          2 |          0 |          2 |          4 |
+| server\services                                                                                  |          1 |         86 |          3 |         18 |        107 |
++--------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++--------------------------------------------------------------------------------------------------+--------------------+------------+------------+------------+------------+
+| filename                                                                                         | language           | code       | comment    | blank      | total      |
++--------------------------------------------------------------------------------------------------+--------------------+------------+------------+------------+------------+
+| c:\Projekter\[Visualisering]\[V2]\SnegleRæsMultiplayer\client\.eslintrc.cjs                      | JavaScript         |         13 |          1 |          2 |         16 |
+| c:\Projekter\[Visualisering]\[V2]\SnegleRæsMultiplayer\client\.prettierrc.json                   | JSON               |          8 |          0 |          0 |          8 |
+| c:\Projekter\[Visualisering]\[V2]\SnegleRæsMultiplayer\client\README.md                          | Markdown           |         29 |          0 |         18 |         47 |
+| c:\Projekter\[Visualisering]\[V2]\SnegleRæsMultiplayer\client\env.d.ts                           | TypeScript         |          0 |          1 |          1 |          2 |
+| c:\Projekter\[Visualisering]\[V2]\SnegleRæsMultiplayer\client\index.html                         | HTML               |         13 |          0 |          1 |         14 |
+| c:\Projekter\[Visualisering]\[V2]\SnegleRæsMultiplayer\client\package-lock.json                  | JSON               |      3,334 |          0 |          1 |      3,335 |
+| c:\Projekter\[Visualisering]\[V2]\SnegleRæsMultiplayer\client\package.json                       | JSON               |         39 |          0 |          1 |         40 |
+| c:\Projekter\[Visualisering]\[V2]\SnegleRæsMultiplayer\client\src\App.vue                        | Vue                |         61 |          0 |         16 |         77 |
+| c:\Projekter\[Visualisering]\[V2]\SnegleRæsMultiplayer\client\src\assets\scss\css-reset.scss     | SCSS               |         10 |          0 |          2 |         12 |
+| c:\Projekter\[Visualisering]\[V2]\SnegleRæsMultiplayer\client\src\assets\scss\global.scss        | SCSS               |          1 |          1 |          1 |          3 |
+| c:\Projekter\[Visualisering]\[V2]\SnegleRæsMultiplayer\client\src\assets\scss\variables.scss     | SCSS               |          5 |          0 |          2 |          7 |
+| c:\Projekter\[Visualisering]\[V2]\SnegleRæsMultiplayer\client\src\components\HeaderComponent.vue | Vue                |         54 |          0 |         10 |         64 |
+| c:\Projekter\[Visualisering]\[V2]\SnegleRæsMultiplayer\client\src\main.ts                        | TypeScript         |          9 |          0 |          5 |         14 |
+| c:\Projekter\[Visualisering]\[V2]\SnegleRæsMultiplayer\client\src\router\index.ts                | TypeScript         |         23 |          0 |          3 |         26 |
+| c:\Projekter\[Visualisering]\[V2]\SnegleRæsMultiplayer\client\src\stores\useIsIngameStore.ts     | TypeScript         |         17 |          0 |          2 |         19 |
+| c:\Projekter\[Visualisering]\[V2]\SnegleRæsMultiplayer\client\src\stores\useWebSocketStore.ts    | TypeScript         |         95 |         31 |         12 |        138 |
+| c:\Projekter\[Visualisering]\[V2]\SnegleRæsMultiplayer\client\src\views\ConnectRoom.vue          | Vue                |        121 |          0 |         15 |        136 |
+| c:\Projekter\[Visualisering]\[V2]\SnegleRæsMultiplayer\client\src\views\HomePage.vue             | Vue                |         10 |          0 |          3 |         13 |
+| c:\Projekter\[Visualisering]\[V2]\SnegleRæsMultiplayer\client\src\views\SignUp.vue               | Vue                |         32 |          0 |          6 |         38 |
+| c:\Projekter\[Visualisering]\[V2]\SnegleRæsMultiplayer\client\src\views\StartingRoom.vue         | Vue                |         68 |          1 |         11 |         80 |
+| c:\Projekter\[Visualisering]\[V2]\SnegleRæsMultiplayer\client\tsconfig.app.json                  | JSON               |         13 |          0 |          2 |         15 |
+| c:\Projekter\[Visualisering]\[V2]\SnegleRæsMultiplayer\client\tsconfig.json                      | JSON with Comments |         11 |          0 |          1 |         12 |
+| c:\Projekter\[Visualisering]\[V2]\SnegleRæsMultiplayer\client\tsconfig.node.json                 | JSON               |         18 |          0 |          2 |         20 |
+| c:\Projekter\[Visualisering]\[V2]\SnegleRæsMultiplayer\client\vite.config.ts                     | TypeScript         |         18 |          1 |          3 |         22 |
+| c:\Projekter\[Visualisering]\[V2]\SnegleRæsMultiplayer\server\.env                               | Properties         |          2 |          0 |          0 |          2 |
+| c:\Projekter\[Visualisering]\[V2]\SnegleRæsMultiplayer\server\controllers\serverController.js    | JavaScript         |         15 |          0 |          3 |         18 |
+| c:\Projekter\[Visualisering]\[V2]\SnegleRæsMultiplayer\server\index.js                           | JavaScript         |         40 |         10 |         14 |         64 |
+| c:\Projekter\[Visualisering]\[V2]\SnegleRæsMultiplayer\server\models\snailModel.js               | JavaScript         |         27 |          0 |          2 |         29 |
+| c:\Projekter\[Visualisering]\[V2]\SnegleRæsMultiplayer\server\models\userModel.js                | JavaScript         |         39 |          3 |          6 |         48 |
+| c:\Projekter\[Visualisering]\[V2]\SnegleRæsMultiplayer\server\package-lock.json                  | JSON               |      5,467 |          0 |          1 |      5,468 |
+| c:\Projekter\[Visualisering]\[V2]\SnegleRæsMultiplayer\server\package.json                       | JSON               |         30 |          0 |          1 |         31 |
+| c:\Projekter\[Visualisering]\[V2]\SnegleRæsMultiplayer\server\routes\createServer.js             | JavaScript         |          2 |          0 |          2 |          4 |
+| c:\Projekter\[Visualisering]\[V2]\SnegleRæsMultiplayer\server\services\WebSocketServices.js      | JavaScript         |         86 |          3 |         18 |        107 |
+| Total                                                                                            |                    |      9,710 |         52 |        167 |      9,929 |
++--------------------------------------------------------------------------------------------------+--------------------+------------+------------+------------+------------+
