@@ -87,6 +87,7 @@ class WebSocketService {
     socket.emit("room created", roomID);
   }
 
+  // TODO: Server crash on join room......!!!!!!!!!!!!!!! 🤷‍♂️🤷‍♂️🤷‍♂️🤷‍♂️🤷‍♂️🤷‍♂️🤷‍♂️🤷‍♂️🤷‍♂️🤷‍♂️
   handleMessage(username, message, roomId) {
     username = username || "Anonymous";
     console.log("message", username, message);
