@@ -1,34 +1,39 @@
 <template>
   <div class="container">
-    <div class="chatbox">
-      <h1>Din Kode: {{ roomID }}</h1>
-      <h2>Chat</h2>
-      <div class="chat-messages">
-        <!-- Use v-for to render messages -->
-        <div v-for="message in messages" :key="message.id">
-          <div class="inline">
-            <span>{{ message.username }}:</span>
-            <p>{{ message.message }}</p>
+    <h1 class="title">Rum: {{ roomID }}</h1>
+    <div class="child-container">
+      <div class="chatbox">
+        <h2 class="subtitle">Chat</h2>
+        <input
+          v-model="newMessage"
+          @keyup.enter="sendMessage"
+          placeholder="Skriv en besked til de andre brugere...."
+          class="input"
+        />
+        <div class="chat-messages" ref="chatMessagesContainer">
+          <!-- Use v-for to render messages -->
+          <div v-for="message in messages" :key="message.id" class="message">
+            <div class="inline">
+              <span class="username"
+                ><b>{{ message.username }}:</b> {{ message.message }}</span
+              >
+            </div>
           </div>
         </div>
       </div>
-      <input
-        v-model="newMessage"
-        @keyup.enter="sendMessage"
-        placeholder="Skriv en besked til de andre brugere...."
-      />
-    </div>
-    <div class="user-list">
-      <h2>Brugere i rummet</h2>
-      <div v-for="user in users" :key="user.id">
-        <p>{{ user.username }}</p>
+      <div class="user-list">
+        <h2 class="subtitle">Brugere i rummet {{ users.length }}</h2>
+        <div v-for="user in users" :key="user.id" class="user">
+          <p v-if="user.username === webSocket.username">{{ user.username }} <b>(Dig)</b></p>
+          <p v-else>{{ user.username }}</p>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, computed } from 'vue'
+import { ref, onMounted, onUnmounted, computed, nextTick, watch } from 'vue'
 import { useWebSocketStore } from '@/stores/useWebSocketStore'
 import { useIsIngameStore } from '@/stores/useIsIngameStore'
 import router from '@/router'
@@ -37,52 +42,119 @@ const webSocket = useWebSocketStore()
 const isIngameStore = useIsIngameStore()
 
 const newMessage = ref('')
+const chatMessagesContainer = ref<HTMLElement | null>(null) // Define the ref
 
 let roomID = computed(() => isIngameStore.roomId)
 
-webSocket.socket?.on('roomLeft', () => {
-  console.log('Room left')
-  router.push('/connect-room')
-})
-
 onMounted(async () => {
   if (roomID.value) {
-    webSocket.joinRoom(roomID.value)
+    return
   } else {
     await router.push('/connect-room')
   }
-  webSocket.messages = []
 })
 
 onUnmounted(() => {
   webSocket.leaveRoom(isIngameStore.roomId)
-  webSocket.disconnectSocket()
 })
 
-function sendMessage() {
-  console.log('sendMessage')
+let disableInput = false
+function sendMessage(this: any) {
+  if (disableInput) {
+    return
+  }
+
   if (newMessage.value.trim() !== '') {
-    console.log('Sending message:', newMessage.value)
     webSocket.sendMessage(newMessage.value)
     newMessage.value = ''
+    disableInput = true
+    setTimeout(() => {
+      disableInput = false
+    }, 1000)
   }
 }
+
+watch(
+  () => webSocket.messages,
+  () => {
+    nextTick(() => {
+      if (chatMessagesContainer.value) {
+        const element = chatMessagesContainer.value
+        element.scrollTop = element.scrollHeight
+      }
+    })
+  },
+  { deep: true }
+)
 
 const messages = computed(() => webSocket.messages)
 const users = computed(() => webSocket.users)
 </script>
 
 <style scoped lang="scss">
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  color: #fff;
+}
+
+.child-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  gap: 20px;
+  width: 100%;
+}
+
+.title {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.subtitle {
+  font-size: 26px;
+  margin-bottom: 10px;
+}
+
+.input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #9b9b9b;
+  color: #fff;
+}
+
+.input::placeholder {
+  color: #ffffffb1;
+}
+
+.chat-messages {
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.message {
+  margin-bottom: 10px;
+}
+
 .inline {
   display: flex;
   flex-direction: row;
   align-items: center;
   margin-bottom: 4px;
-  span {
-    margin-right: 10px;
-  }
-  p {
-    margin: 0;
-  }
+}
+
+.username {
+  margin-right: 10px;
+}
+
+.user {
+  margin-bottom: 5px;
 }
 </style>

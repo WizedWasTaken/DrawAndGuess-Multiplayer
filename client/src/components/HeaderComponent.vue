@@ -1,7 +1,7 @@
 <template>
-  <header>
+  <header v-if="!isGameStarted">
     <div class="wrapper">
-      <nav v-if="!isGameStarted">
+      <nav>
         <router-link to="/" exact>Home</router-link>
         <router-link to="/connect-room">Connect Room</router-link>
       </nav>

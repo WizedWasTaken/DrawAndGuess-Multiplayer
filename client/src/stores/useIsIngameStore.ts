@@ -8,8 +8,6 @@ export const useIsIngameStore = defineStore('isIngame', {
   }),
   actions: {
     setValues(isIngame: boolean, isHost: boolean, roomId: string) {
-      console.log('setValues')
-      console.log(isIngame, isHost, roomId)
       this.isIngame = isIngame
       this.isHost = isHost
       this.roomId = roomId

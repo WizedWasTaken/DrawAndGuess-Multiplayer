@@ -39,9 +39,6 @@ const isGameStarted = computed(() => isIngameStore.isIngame)
 function setupWebSocket() {
   try {
     webSocketStore.initializeSocket()
-    webSocketStore.socket?.on('room joined', (message) => {
-      console.log(message)
-    })
   } catch (error) {
     console.error('Error setting up WebSocket:', error)
   }
