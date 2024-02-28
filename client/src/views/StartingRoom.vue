@@ -1,32 +1,38 @@
 <template>
   <div class="container">
-    <h1 class="title">Rum: {{ roomID }}</h1>
-    <div class="child-container">
-      <div class="chatbox">
-        <h2 class="subtitle">Chat</h2>
-        <input
-          v-model="newMessage"
-          @keyup.enter="sendMessage"
-          placeholder="Skriv en besked til de andre brugere...."
-          class="input"
-        />
-        <div class="chat-messages" ref="chatMessagesContainer">
-          <!-- Use v-for to render messages -->
-          <div v-for="message in messages" :key="message.id" class="message">
-            <div class="inline">
-              <span class="username"
-                ><b>{{ message.username }}:</b> {{ message.message }}</span
-              >
+    <h1>Lobby</h1>
+    <div class="wrapper">
+      <div class="child-container">
+        <h1 class="title">Rum: {{ roomID }}</h1>
+        <div class="chatbox">
+          <h2 class="subtitle">Chat</h2>
+          <div class="chat-messages" ref="chatMessagesContainer">
+            <!-- Use v-for to render messages -->
+            <div v-for="message in messages" :key="message.id" class="message">
+              <div class="inline">
+                <span class="username"
+                  ><b>{{ message.username }}:</b> {{ message.message }}</span
+                >
+              </div>
             </div>
+          </div>
+          <input
+            v-model="newMessage"
+            @keyup.enter="sendMessage"
+            placeholder="Skriv en besked til de andre brugere...."
+            class="input"
+          />
+        </div>
+        <div class="user-list">
+          <h2 class="subtitle">Brugere i rummet {{ users.length }}</h2>
+          <div v-for="user in users" :key="user.id" class="user">
+            <p v-if="user.username === webSocket.username">{{ user.username }} <b>(Dig)</b></p>
+            <p v-else>{{ user.username }}</p>
           </div>
         </div>
       </div>
-      <div class="user-list">
-        <h2 class="subtitle">Brugere i rummet {{ users.length }}</h2>
-        <div v-for="user in users" :key="user.id" class="user">
-          <p v-if="user.username === webSocket.username">{{ user.username }} <b>(Dig)</b></p>
-          <p v-else>{{ user.username }}</p>
-        </div>
+      <div class="random-box">
+        <h1>Box</h1>
       </div>
     </div>
   </div>
@@ -103,7 +109,7 @@ const users = computed(() => webSocket.users)
 
 .child-container {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
   justify-content: space-around;
   gap: 20px;
@@ -113,6 +119,18 @@ const users = computed(() => webSocket.users)
 .title {
   font-size: 24px;
   margin-bottom: 20px;
+}
+
+.user-list {
+  width: 60%;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  justify-content: space-around;
+  width: 100%;
 }
 
 .subtitle {
@@ -126,12 +144,13 @@ const users = computed(() => webSocket.users)
   margin-bottom: 10px;
   border: none;
   border-radius: 5px;
-  background-color: #9b9b9b;
+  background-color: #9b9b9b6c;
   color: #fff;
+  outline: none;
 }
 
 .input::placeholder {
-  color: #ffffffb1;
+  color: #fff;
 }
 
 .chat-messages {
@@ -156,5 +175,11 @@ const users = computed(() => webSocket.users)
 
 .user {
   margin-bottom: 5px;
+}
+
+.random-box {
+  height: 500px;
+  width: 500px;
+  border: 2px solid black;
 }
 </style>
