@@ -1,11 +1,25 @@
 <template>
   <div class="container">
-    <h1>Lobby</h1>
+    <h1 v-if="isStarted">Spil</h1>
+    <h1 v-else>Lobby</h1>
+    <h1 class="title">Rum: {{ roomID }}</h1>
     <div class="wrapper">
       <div class="child-container">
-        <h1 class="title">Rum: {{ roomID }}</h1>
+        <div class="user-list">
+          <h2 class="subtitle">Brugere i rummet {{ users.length }}</h2>
+          <div v-for="user in users" :key="user.id" class="user">
+            <p v-if="user.username === webSocket.username">{{ user.username }} <b>(Dig)</b></p>
+            <p v-else>{{ user.username }}</p>
+          </div>
+        </div>
         <div class="chatbox">
           <h2 class="subtitle">Chat</h2>
+          <input
+            v-model="newMessage"
+            @keyup.enter="sendMessage"
+            placeholder="Skriv en besked til de andre brugere...."
+            class="input"
+          />
           <div class="chat-messages" ref="chatMessagesContainer">
             <!-- Use v-for to render messages -->
             <div v-for="message in messages" :key="message.id" class="message">
@@ -16,23 +30,15 @@
               </div>
             </div>
           </div>
-          <input
-            v-model="newMessage"
-            @keyup.enter="sendMessage"
-            placeholder="Skriv en besked til de andre brugere...."
-            class="input"
-          />
-        </div>
-        <div class="user-list">
-          <h2 class="subtitle">Brugere i rummet {{ users.length }}</h2>
-          <div v-for="user in users" :key="user.id" class="user">
-            <p v-if="user.username === webSocket.username">{{ user.username }} <b>(Dig)</b></p>
-            <p v-else>{{ user.username }}</p>
-          </div>
         </div>
       </div>
       <div class="random-box">
-        <h1>Box</h1>
+        <h2 class="subtitle">Mal</h2>
+        <Drawing
+          :multiplayer="isStarted"
+          :drawable="!isStarted && isTurn"
+          :showControls="!isStarted && isTurn"
+        />
       </div>
     </div>
   </div>
@@ -42,6 +48,7 @@
 import { ref, onMounted, onUnmounted, computed, nextTick, watch } from 'vue'
 import { useWebSocketStore } from '@/stores/useWebSocketStore'
 import { useIsIngameStore } from '@/stores/useIsIngameStore'
+import Drawing from '@/components/DrawingComponent.vue'
 import router from '@/router'
 
 const webSocket = useWebSocketStore()
@@ -51,6 +58,8 @@ const newMessage = ref('')
 const chatMessagesContainer = ref<HTMLElement | null>(null) // Define the ref
 
 let roomID = computed(() => isIngameStore.roomId)
+let isTurn = ref(true)
+let isStarted = false
 
 onMounted(async () => {
   if (roomID.value) {
@@ -58,6 +67,11 @@ onMounted(async () => {
   } else {
     await router.push('/connect-room')
   }
+})
+
+webSocket.socket?.on('gameStarted', () => {
+  isStarted = true
+  isTurn.value = false
 })
 
 onUnmounted(() => {
@@ -113,16 +127,12 @@ const users = computed(() => webSocket.users)
   align-items: center;
   justify-content: space-around;
   gap: 20px;
-  width: 100%;
+  width: 50%;
 }
 
 .title {
   font-size: 24px;
   margin-bottom: 20px;
-}
-
-.user-list {
-  width: 60%;
 }
 
 .wrapper {
@@ -136,6 +146,7 @@ const users = computed(() => webSocket.users)
 .subtitle {
   font-size: 26px;
   margin-bottom: 10px;
+  text-align: center;
 }
 
 .input {
@@ -156,6 +167,7 @@ const users = computed(() => webSocket.users)
 .chat-messages {
   max-height: 200px;
   overflow-y: auto;
+  position: relative;
 }
 
 .message {
@@ -178,8 +190,7 @@ const users = computed(() => webSocket.users)
 }
 
 .random-box {
-  height: 500px;
-  width: 500px;
-  border: 2px solid black;
+  height: 100%;
+  width: 40%;
 }
 </style>
