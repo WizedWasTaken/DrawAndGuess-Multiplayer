@@ -67,7 +67,6 @@ class WebSocketService {
     }
 
     socket.join(roomId);
-    // TODO: Server crash on join room......!!!!!!!!!!!!!!! 🤷‍♂️🤷‍♂️🤷‍♂️🤷‍♂️🤷‍♂️🤷‍♂️🤷‍♂️🤷‍♂️🤷‍♂️🤷‍♂️
     let newUser = new User(socket.id, username);
     this.rooms[roomId].users[newUser.socketId] = newUser;
 
