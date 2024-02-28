@@ -21,7 +21,6 @@
             class="input"
           />
           <div class="chat-messages" ref="chatMessagesContainer">
-            <!-- Use v-for to render messages -->
             <div v-for="message in messages" :key="message.id" class="message">
               <div class="inline">
                 <span class="username"
