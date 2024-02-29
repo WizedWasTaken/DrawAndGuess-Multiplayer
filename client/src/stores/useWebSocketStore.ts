@@ -25,7 +25,8 @@ export const useWebSocketStore = defineStore('webSocket', {
         return
       }
 
-      this.socket = io('http://10.203.128.38:4000')
+      this.socket = io('http://localhost:4000')
+      // this.socket = io('http://10.203.128.38:4000')
       this.socket.on('connect', () => {
         if (this.isConnected === true) {
           this.messages = []
