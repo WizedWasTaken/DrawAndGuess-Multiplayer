@@ -34,11 +34,7 @@
       <div class="random-box">
         <!-- TODO: Make drawing work... -->
         <h2 class="subtitle">Mal</h2>
-        <Drawing
-          :multiplayer="isStarted"
-          :drawable="!isStarted && isTurn"
-          :showControls="!isStarted && isTurn"
-        />
+        <Drawing :multiplayer="true" :drawable="true" :showControls="true" />
       </div>
     </div>
   </div>

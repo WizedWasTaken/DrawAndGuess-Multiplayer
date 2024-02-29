@@ -11,8 +11,9 @@ body {
 }
 
 .fast-blink {
-  animation: blink 1s infinite;
+  animation: blink 150ms infinite;
   background-color: hotpink;
+  color: hotpink;
 }
 
 @keyframes blink {

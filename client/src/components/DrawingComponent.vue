@@ -6,6 +6,7 @@ import router from '@/router'
 
 // Drawing Data
 interface DrawingData {
+  userId: string
   x: number
   y: number
   color: string
@@ -16,7 +17,7 @@ interface DrawingData {
 const props = defineProps({
   multiplayer: {
     type: Boolean,
-    default: false
+    default: true
   },
   showControls: {
     type: Boolean,
@@ -46,11 +47,9 @@ onMounted(() => {
 
   if (canvas.value) {
     ctx = canvas.value.getContext('2d')
-    if (props.drawable) {
-      canvas.value.addEventListener('mousedown', startDrawing)
-      canvas.value.addEventListener('mousemove', draw)
-      window.addEventListener('mouseup', stopDrawing)
-    }
+    canvas.value.addEventListener('mousedown', startDrawing)
+    canvas.value.addEventListener('mousemove', draw)
+    window.addEventListener('mouseup', stopDrawing)
     adjustCanvasSize()
     window.addEventListener('resize', adjustCanvasSize)
   }
@@ -60,6 +59,11 @@ onMounted(() => {
       drawOnCanvas(data)
     })
   }
+
+  webSocket.socket?.on('drawingData', (data) => {
+    console.log('drawingData', data)
+    drawOnCanvas(data)
+  })
 })
 
 onUnmounted(() => {
@@ -67,8 +71,11 @@ onUnmounted(() => {
 })
 
 function startDrawing(e: MouseEvent) {
-  drawing = true
-  draw(e)
+  e.preventDefault()
+  if (props.drawable) {
+    drawing = true
+    draw(e)
+  }
 }
 
 function draw(e: MouseEvent) {
@@ -88,33 +95,51 @@ function draw(e: MouseEvent) {
   ctx.moveTo(x, y)
 
   const data: DrawingData = {
+    userId: webSocket.username,
     x,
     y,
     color: color.value,
     brushSize: brushSize.value
   }
-  webSocket.socket?.emit('drawingData', data)
+  if (props.multiplayer) {
+    sendDrawingData(data)
+  }
+}
+
+function sendDrawingData(data: DrawingData) {
+  webSocket.socket?.emit('drawingData', data, isIngame.roomId)
 }
 
 function stopDrawing() {
   if (!drawing || !ctx) return
   drawing = false
   ctx.beginPath()
+
+  if (props.multiplayer) {
+    webSocket.socket?.emit('drawingData', false, isIngame.roomId)
+  }
 }
+
+let lastUserId: string | null = null
 
 function drawOnCanvas(data: DrawingData) {
   if (!ctx) return
 
-  ctx.lineWidth = data.brushSize
-  ctx.lineCap = 'round'
-  ctx.strokeStyle = data.color
+  console.log(data.userId, 'vs', lastUserId)
+  // If the drawing data is from a different user, start a new path
+  if (data.userId !== lastUserId) {
+    console.log('New path')
+    ctx.beginPath()
+    ctx.moveTo(data.x, data.y)
+  }
 
   ctx.lineTo(data.x, data.y)
+  ctx.strokeStyle = data.color
+  ctx.lineWidth = data.brushSize
   ctx.stroke()
-  ctx.beginPath()
-  ctx.moveTo(data.x, data.y)
-}
 
+  lastUserId = data.userId
+}
 function adjustCanvasSize() {
   if (canvas.value) {
     const rect = canvas.value.parentElement?.getBoundingClientRect()
@@ -132,8 +157,15 @@ function adjustCanvasSize() {
   }
 }
 
-function clearCanvas() {
+webSocket.socket?.on('clearCanvas', () => {
+  clearCanvas(true)
+})
+
+function clearCanvas(fromSocket = false) {
   if (ctx && canvas.value) {
+    if (!fromSocket) {
+      webSocket.socket?.emit('clearCanvas', isIngame.roomId)
+    }
     const scale = window.devicePixelRatio
 
     // Temporarily reset the scale to 1
@@ -153,7 +185,7 @@ function clearCanvas() {
     <canvas ref="canvas" id="canvas"></canvas>
     <div class="controls" v-if="showControls">
       <input type="color" v-model="color" />
-      <button type="submit" @click.prevent="clearCanvas">Ryd maleri</button>
+      <button type="submit" @click.prevent="clearCanvas(false)">Ryd maleri</button>
       <input type="range" v-model="brushSize" min="1" max="15" />
     </div>
   </div>
