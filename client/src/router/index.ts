@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomePage from '../views/HomePage.vue'
+import HomePage from '@/views/HomePage.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -12,17 +12,12 @@ const router = createRouter({
     {
       path: '/connect-room',
       name: 'connect',
-      component: () => import('../views/ConnectRoom.vue')
+      component: () => import('@/views/ConnectRoom.vue')
     },
     {
       path: '/game/:id',
       name: 'game',
-      component: () => import('../views/StartingRoom.vue')
-    },
-    {
-      path: '/draw',
-      name: 'draw',
-      component: () => import('@/views/DrawingPage.vue')
+      component: () => import('@/views/StartingRoom.vue')
     }
   ]
 })

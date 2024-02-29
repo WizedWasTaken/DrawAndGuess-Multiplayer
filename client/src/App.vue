@@ -3,12 +3,30 @@ import { RouterView } from 'vue-router'
 
 // Imports
 import Header from './components/HeaderComponent.vue'
+
+const isChrome = checkBrowser()
+
+function checkBrowser() {
+  const isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor)
+
+  if (!isChrome) {
+    document.body.classList.add('fast-blink')
+  }
+  return isChrome
+}
 </script>
 
 <template>
-  <Header />
+  <div>
+    <div v-if="isChrome">
+      <Header />
 
-  <RouterView />
+      <RouterView />
+    </div>
+    <div class="not-chrome" v-else>
+      <h1>Brug Google Chrome din noob! 😉</h1>
+    </div>
+  </div>
 </template>
 
 <style scoped>
@@ -72,5 +90,17 @@ nav a:first-of-type {
     padding: 1rem 0;
     margin-top: 1rem;
   }
+}
+
+/* Ikke Chrome */
+.not-chrome {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-size: 2rem;
+  color: red;
+  text-align: center;
+  background-color: #f4f4f4;
 }
 </style>
