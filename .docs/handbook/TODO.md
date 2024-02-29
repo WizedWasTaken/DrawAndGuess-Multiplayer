@@ -117,3 +117,8 @@
   - Identify additional tasks and add them to the TODO list.
   - Clearly explain the purpose and requirements of each new task.
   - Have fun while doing it! 😄🎉🔥🤣🚀💪🏿💅🏼🌈⚙️🖌️🏆❓⏰
+- Look into adding automated JSDoc
+  - Is this effective
+    - https://github.com/jsdoc/jsdoc
+    - https://medium.com/@kevinast/integrate-gitbook-jsdoc-974be8df6fb3
+  - Is it possible with Vue and TypeScript?
