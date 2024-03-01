@@ -3,15 +3,23 @@
     <h1>Tilslut dig et rum</h1>
     <input v-model="roomId" placeholder="Enter room ID" />
     <div class="wrapper">
-      <button v-show="!isGameStarted" class="host-button" @click.prevent="hostGame">
+      <!-- <button v-show="!isGameStarted" class="host-button" @click.prevent="hostGame">
         Opret nyt spil
-      </button>
+      </button> -->
+      <N-Button
+        :backgroundColor="'darkred'"
+        :color="'#EDDDD4'"
+        :rounded="true"
+        :border="true"
+        @click.prevent="joinRoom"
+        >Tilslut spil</N-Button
+      >
       <N-Button
         :backgroundColor="'#197278'"
         :color="'#EDDDD4'"
         :rounded="true"
         :border="true"
-        @click.prevent="joinRoom"
+        @click.prevent="hostGame"
         >Opret nyt spil</N-Button
       >
     </div>

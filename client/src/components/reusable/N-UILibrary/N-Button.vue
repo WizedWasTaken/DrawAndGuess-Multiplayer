@@ -32,7 +32,7 @@ let props = defineProps({
   },
   animated: {
     type: Boolean,
-    default: true
+    default: false
   },
   icon: {
     type: String,
@@ -62,7 +62,12 @@ console.log(props)
     <span v-if="props.icon" class="n-button__icon">
       <i :class="props.icon"></i>
     </span>
-    <slot></slot>
+    <span v-if="props.animated" class="extra-bg">
+      <slot></slot>
+    </span>
+    <span v-else>
+      <slot></slot>
+    </span>
   </button>
 </template>
 
@@ -121,6 +126,12 @@ console.log(props)
   &__icon {
     margin-right: 8px;
   }
+}
+
+.extra-bg {
+  background-color: black;
+  height: 100%;
+  width: 100%;
 }
 
 @keyframes animatedBorder {
