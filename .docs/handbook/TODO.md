@@ -121,4 +121,5 @@
   - Is this effective
     - https://github.com/jsdoc/jsdoc
     - https://medium.com/@kevinast/integrate-gitbook-jsdoc-974be8df6fb3
+      - Does this work with Vue???
   - Is it possible with Vue and TypeScript?
