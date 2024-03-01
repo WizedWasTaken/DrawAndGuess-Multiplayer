@@ -106,10 +106,6 @@
 
 - **Clean up code**
   - Organize and refactor messy code.
-  - Create reusable components for relevant code sections (e.g., Button component).
-    - Move reusable components to a separate components folder.
-      - Commit the reusable components to GitHub for potential use in other projects.
-    - Ensure reusable components have customizable props with default values.
 
 ## General
 

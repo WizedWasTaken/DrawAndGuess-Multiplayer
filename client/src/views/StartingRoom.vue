@@ -44,7 +44,7 @@
 import { ref, onMounted, onUnmounted, computed, nextTick, watch } from 'vue'
 import { useWebSocketStore } from '@/stores/useWebSocketStore'
 import { useIsIngameStore } from '@/stores/useIsIngameStore'
-import Drawing from '@/components/DrawingComponent.vue'
+import Drawing from '@/components/reusable/DrawingComponent.vue'
 import router from '@/router'
 
 const webSocket = useWebSocketStore()

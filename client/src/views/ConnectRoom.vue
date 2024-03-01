@@ -3,10 +3,17 @@
     <h1>Tilslut dig et rum</h1>
     <input v-model="roomId" placeholder="Enter room ID" />
     <div class="wrapper">
-      <button class="connect-button" @click.prevent="joinRoom">Tilslut et rum</button>
       <button v-show="!isGameStarted" class="host-button" @click.prevent="hostGame">
         Opret nyt spil
       </button>
+      <N-Button
+        :backgroundColor="'#197278'"
+        :color="'#EDDDD4'"
+        :rounded="true"
+        :border="true"
+        @click.prevent="joinRoom"
+        >Opret nyt spil</N-Button
+      >
     </div>
   </form>
 </template>
@@ -19,6 +26,9 @@ import { ref, computed, onMounted } from 'vue'
 import { useWebSocketStore } from '@/stores/useWebSocketStore'
 import { useIsIngameStore } from '@/stores/useIsIngameStore'
 import router from '@/router'
+
+// Components
+import NButton from '@/components/reusable/N-UILibrary/N-Button.vue'
 
 /*
  * Variables
