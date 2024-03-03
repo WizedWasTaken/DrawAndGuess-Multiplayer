@@ -1,16 +1,12 @@
 <template>
   <form>
     <h1>Tilslut dig et rum</h1>
-    <input v-model="roomId" placeholder="Enter room ID" />
+    <N-Input v-model="roomId" :placeholder="'Enter room ID'" />
     <div class="wrapper">
-      <!-- <button v-show="!isGameStarted" class="host-button" @click.prevent="hostGame">
-        Opret nyt spil
-      </button> -->
       <N-Button
         :backgroundColor="'darkred'"
         :color="'#EDDDD4'"
         :rounded="true"
-        :border="true"
         @click.prevent="joinRoom"
         >Tilslut spil</N-Button
       >
@@ -19,6 +15,7 @@
         :color="'#EDDDD4'"
         :rounded="true"
         :border="true"
+        :animated="true"
         @click.prevent="hostGame"
         >Opret nyt spil</N-Button
       >
@@ -30,13 +27,14 @@
 /*
  * Imports
  */
-import { ref, computed, onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useWebSocketStore } from '@/stores/useWebSocketStore'
 import { useIsIngameStore } from '@/stores/useIsIngameStore'
 import router from '@/router'
 
 // Components
 import NButton from '@/components/reusable/N-UILibrary/N-Button.vue'
+import NInput from '@/components/reusable/N-UILibrary/N-Input.vue'
 
 /*
  * Variables
@@ -44,11 +42,6 @@ import NButton from '@/components/reusable/N-UILibrary/N-Button.vue'
 const roomId = ref('')
 const webSocketStore = useWebSocketStore()
 const isIngameStore = useIsIngameStore()
-
-/*
- * Computed values
- */
-const isGameStarted = computed(() => isIngameStore.isIngame)
 
 /*
  * Setup WebSocket
@@ -121,24 +114,6 @@ form {
     margin-bottom: 1rem;
     padding: 0.5rem;
     font-size: 1rem;
-  }
-
-  button {
-    padding: 0.5rem 1rem;
-    font-size: 1rem;
-    cursor: pointer;
-  }
-
-  .connect-button {
-    background-color: #4caf50;
-    color: white;
-    border: none;
-  }
-
-  .host-button {
-    background-color: #f44336;
-    color: white;
-    border: none;
   }
 
   .wrapper {

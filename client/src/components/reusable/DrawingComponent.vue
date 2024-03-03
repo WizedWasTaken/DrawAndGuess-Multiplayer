@@ -4,6 +4,9 @@ import { useWebSocketStore } from '@/stores/useWebSocketStore'
 import { useIsIngameStore } from '@/stores/useIsIngameStore'
 import router from '@/router'
 
+// Import
+import NButton from '@/components/reusable/N-UILibrary/N-Button.vue'
+
 // Drawing Data
 interface DrawingData {
   userId: string
@@ -185,7 +188,14 @@ function clearCanvas(fromSocket = false) {
     <canvas ref="canvas" id="canvas"></canvas>
     <div class="controls" v-if="showControls">
       <input type="color" v-model="color" />
-      <button type="submit" @click.prevent="clearCanvas(false)">Ryd maleri</button>
+      <N-Button
+        :backgroundColor="'#197278'"
+        :color="'#EDDDD4'"
+        :size="'small'"
+        :rounded="true"
+        @click.prevent="clearCanvas"
+        >Ryd canvas</N-Button
+      >
       <input type="range" v-model="brushSize" min="1" max="15" />
     </div>
   </div>

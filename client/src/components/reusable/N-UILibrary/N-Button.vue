@@ -54,20 +54,15 @@ console.log(props)
       { 'n-button--animated': props.animated }
     ]"
     :style="{
-      backgroundColor: props.backgroundColor,
-      color: props.color
+      '--button-background-color': props.backgroundColor,
+      '--button-color': props.color
     }"
     :disabled="props.disabled"
   >
     <span v-if="props.icon" class="n-button__icon">
       <i :class="props.icon"></i>
     </span>
-    <span v-if="props.animated" class="extra-bg">
-      <slot></slot>
-    </span>
-    <span v-else>
-      <slot></slot>
-    </span>
+    <slot></slot>
   </button>
 </template>
 
@@ -80,10 +75,8 @@ console.log(props)
   transition: all 0.3s;
   outline: none;
   border: 0;
-
-  &:hover {
-    transform: scale(1.05);
-  }
+  background-color: var(--button-background-color);
+  color: var(--button-color);
 
   &:disabled {
     cursor: not-allowed;
@@ -97,6 +90,11 @@ console.log(props)
   &--small {
     padding: 8px 16px;
     font-size: 1rem;
+  }
+
+  &--medium {
+    padding: 10px 20px;
+    font-size: 1.2rem;
   }
 
   &--large {
@@ -118,28 +116,46 @@ console.log(props)
   }
 
   &--animated {
-    background: radial-gradient(circle at center, #fff, #27272a, #313135);
-    background-size: 200% 200%;
-    animation: animatedBorder 2s alternate infinite ease-in-out;
-  }
+    position: relative;
+    overflow: hidden;
+    border: 3px solid transparent;
+    // var(--button-background-color) er en CSS variabel sat i inline styling, baseret på props.
+    background:
+      linear-gradient(var(--button-background-color), var(--button-background-color)) padding-box,
+      linear-gradient(
+          90deg,
+          var(--button-background-color),
+          var(--button-color),
+          var(--button-background-color)
+        )
+        border-box;
+    background-size:
+      100% 100%,
+      200% 200%;
+    animation: animatedBorder 4s infinite linear;
+    transition: all 0.3s ease-in-out;
 
-  &__icon {
-    margin-right: 8px;
+    &:hover {
+      color: var(--button-background-color);
+    }
   }
-}
-
-.extra-bg {
-  background-color: black;
-  height: 100%;
-  width: 100%;
 }
 
 @keyframes animatedBorder {
   0% {
-    background-position: 0% 0%;
+    background-position:
+      0% 0%,
+      0% 0%;
+  }
+  50% {
+    background-position:
+      0% 0%,
+      100% 100%;
   }
   100% {
-    background-position: 100% 100%;
+    background-position:
+      0% 0%,
+      0% 0%;
   }
 }
 </style>
