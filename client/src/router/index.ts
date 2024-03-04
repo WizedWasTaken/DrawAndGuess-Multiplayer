@@ -7,22 +7,31 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
+      /**
+       * Home page component
+       * @returns {Promise} - The component to be rendered
+       */
       component: HomePage
     },
     {
       path: '/connect-room',
       name: 'connect',
+      /**
+       *
+       * @returns {Promise} - The component to be rendered
+       * @description - This function returns a promise that resolves to the component to be rendered
+       */
       component: () => import('@/views/ConnectRoom.vue')
     },
     {
       path: '/game/:id',
       name: 'game',
+      /**
+       * Starting room component
+       * @returns {Promise} - The component to be rendered
+       * @description - This function returns a promise that resolves to the component to be rendered
+       */
       component: () => import('@/views/StartingRoom.vue')
-    },
-    {
-      path: '/background',
-      name: 'background',
-      component: () => import('@/components/BackgroundEffect.vue')
     }
   ]
 })

@@ -75,6 +75,11 @@ onUnmounted(() => {
 })
 
 let disableInput = false
+
+/**
+ * Send a message to the chat
+ * @returns {void}
+ */
 function sendMessage(this: any) {
   if (disableInput) {
     return

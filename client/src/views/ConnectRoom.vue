@@ -34,7 +34,6 @@ import router from '@/router'
 
 // Components
 import NButton from '@/components/reusable/N-UILibrary/N-Button.vue'
-import NInput from '@/components/reusable/N-UILibrary/N-Input.vue'
 
 /*
  * Variables
@@ -43,11 +42,11 @@ const roomId = ref('')
 const webSocketStore = useWebSocketStore()
 const isIngameStore = useIsIngameStore()
 
-/*
+/**
  * Setup WebSocket
- * @returns void
+ * @returns {void}
  */
-function setupWebSocket() {
+function setupWebSocket(): void {
   try {
     webSocketStore.initializeSocket()
   } catch (error) {
@@ -55,22 +54,23 @@ function setupWebSocket() {
   }
 }
 
-/*
+/**
  * Join a room
- * @returns void
+ * @returns {Promise<void>}
  */
-const joinRoom = async () => {
+const joinRoom = async (): Promise<void> => {
   if (await webSocketStore.joinRoom(roomId.value)) {
     redirectToGamepage(isIngameStore.roomId)
   } else {
     console.error('Error hosting game')
   }
 }
-/*
+
+/**
  * Host a game
- * @returns void
+ * @returns {Promise<void>}
  */
-const hostGame = async () => {
+const hostGame = async (): Promise<void> => {
   if (await webSocketStore.hostRoom()) {
     redirectToGamepage(isIngameStore.roomId)
   } else {
@@ -78,19 +78,19 @@ const hostGame = async () => {
   }
 }
 
-/*
+/**
  * Redirect to game page
  * @param id - string
- * @returns void
+ * @returns {void}
  */
-function redirectToGamepage(id: string) {
+function redirectToGamepage(id: string): void {
   console.log('Redirect to gamepage: ', id)
   router.push(`/game/${id}`)
 }
 
-/*
+/**
  * Setup WebSocket
- * @returns void
+ * @returns {void}
  */
 onMounted(() => {
   setupWebSocket()
