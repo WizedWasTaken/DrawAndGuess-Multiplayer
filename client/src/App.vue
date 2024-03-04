@@ -2,6 +2,7 @@
 import { RouterView } from 'vue-router'
 
 // Imports
+// TODO: Wave good?
 import Waves from './components/WavesComponent.vue' // Import the waves component. (Used at bottom)
 import Header from './components/HeaderComponent.vue' // Import the header component.
 // import '@/util/mouseEffect' // Import the mouseEffect function.
