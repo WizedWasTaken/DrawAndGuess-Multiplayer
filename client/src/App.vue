@@ -1,7 +1,5 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router'
-
-// import '@/util/mouseEffect' // Import the mouseEffect function.
 import { isChrome } from '@/util/checkIfChrome' // Check if user is using Chrome.
 </script>
 
