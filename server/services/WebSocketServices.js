@@ -16,42 +16,42 @@ class WebSocketService {
    * Initializes the WebSocket connection and sets up event listeners.
    */
   initializeSocket() {
-    this.io.on("connection", (socket) => {
-      console.log("User connected", socket.id);
+    this.io.on('connection', (socket) => {
+      console.log('User connected', socket.id);
 
       // Join Room event
-      socket.on("joinRoom", (roomId, username) => {
+      socket.on('joinRoom', (roomId, username) => {
         this.handleJoinRoom(socket, roomId, username);
       });
 
       // Create Room event
-      socket.on("createRoom", (username) => {
+      socket.on('createRoom', (username) => {
         this.createRoom(socket, username);
       });
 
       // Message event
-      socket.on("message", (username, message, roomId) => {
+      socket.on('message', (username, message, roomId) => {
         this.handleMessage(username, message, roomId);
       });
 
       // Leave Room event
-      socket.on("leaveRoom", (roomId, username) => {
+      socket.on('leaveRoom', (roomId, username) => {
         this.handleLeaveRoom(roomId, socket, username);
       });
 
       // Drawing Data event
-      socket.on("drawingData", (data, roomId) => {
+      socket.on('drawingData', (data, roomId) => {
         this.handleDrawingData(data, roomId);
       });
 
       // Clear Canvas event
-      socket.on("clearCanvas", (roomId) => {
+      socket.on('clearCanvas', (roomId) => {
         // TODO: clearCanvas might be a bit buggy.
-        this.io.to(roomId).emit("clearCanvas");
+        this.io.to(roomId).emit('clearCanvas');
       });
 
       // Disconnect event
-      socket.on("disconnect", () => {
+      socket.on('disconnect', () => {
         this.handleDisconnect(socket);
       });
     });
@@ -66,31 +66,31 @@ class WebSocketService {
   handleJoinRoom(socket, roomId, username) {
     const MAX_PLAYERS = 15;
 
-    if (roomId == "" || roomId == undefined) {
-      socket.emit("error", "Indtast et rum id");
+    if (roomId == '' || roomId == undefined) {
+      socket.emit('error', 'Indtast et rum id');
       return;
     }
 
     if (this.rooms[roomId].users.length == MAX_PLAYERS) {
-      socket.emit("error", "Rummet har ramt maximum antal spillere.");
+      socket.emit('error', 'Rummet har ramt maximum antal spillere.');
       return;
     }
 
     if (!this.rooms[roomId]) {
-      socket.emit("error", `Rum "${roomId}" findes ikke.`);
+      socket.emit('error', `Rum "${roomId}" findes ikke.`);
       return;
     }
 
     const numberOfUsers = Object.keys(this.rooms[roomId].users).length;
 
     if (numberOfUsers >= MAX_PLAYERS) {
-      console.log("Room has reached the maximum number of players.");
-      socket.emit("error", "Rummet har ramt maximum antal spillere.");
+      console.log('Room has reached the maximum number of players.');
+      socket.emit('error', 'Rummet har ramt maximum antal spillere.');
       return;
     }
 
     if (this.rooms[roomId].users.hasOwnProperty(socket.id)) {
-      socket.emit("error", `${socket.id} er allerede i rum ${roomId}.`);
+      socket.emit('error', `${socket.id} er allerede i rum ${roomId}.`);
       return;
     }
 
@@ -99,20 +99,20 @@ class WebSocketService {
     this.rooms[roomId].users[newUser.socketId] = newUser;
 
     this.rooms[roomId].messages.forEach((message) => {
-      socket.emit("message", message);
+      socket.emit('message', message);
     });
 
     this.handleMessage(
-      "System",
+      'System',
       `${username} har tilsluttet sig rummet.`,
       roomId
     );
 
-    this.io.to(roomId).emit("users", Object.values(this.rooms[roomId].users));
-    socket.emit("joinedRoom", roomId);
+    this.io.to(roomId).emit('users', Object.values(this.rooms[roomId].users));
+    socket.emit('joinedRoom', roomId);
 
     const usersInRoom = Object.values(this.rooms[roomId].users);
-    this.io.to(roomId).emit("users", usersInRoom);
+    this.io.to(roomId).emit('users', usersInRoom);
   }
 
   /**
@@ -128,14 +128,14 @@ class WebSocketService {
       users: { [socket.id]: user },
     };
     socket.join(roomID);
-    socket.emit("room created", roomID);
+    socket.emit('room created', roomID);
     this.rooms[roomID].messages = [];
     this.handleMessage(
-      "System",
+      'System',
       `Rum ${roomID} er blevet oprettet af ${username}.`,
       roomID
     );
-    this.io.to(roomID).emit("users", Object.values(this.rooms[roomID].users));
+    this.io.to(roomID).emit('users', Object.values(this.rooms[roomID].users));
   }
 
   /**
@@ -154,7 +154,7 @@ class WebSocketService {
    */
   handleMessage(username, message, roomId) {
     this.rooms[roomId].messages.push({ username, message });
-    this.io.to(roomId).emit("message", {
+    this.io.to(roomId).emit('message', {
       username: username,
       message: message,
     });
@@ -175,16 +175,16 @@ class WebSocketService {
     }
 
     if (socket.id === this.rooms[roomId].host.socketId) {
-      this.io.to(roomId).emit("roomLeft");
-      this.io.to(roomId).emit("error", "Værten har forladt rummet.");
+      this.io.to(roomId).emit('roomLeft');
+      this.io.to(roomId).emit('error', 'Værten har forladt rummet.');
       delete this.rooms[roomId];
       return;
     }
 
     delete this.rooms[roomId].users[socket.id];
-    this.io.to(roomId).emit("users", Object.values(this.rooms[roomId].users));
+    this.io.to(roomId).emit('users', Object.values(this.rooms[roomId].users));
 
-    this.handleMessage("System", `${username} har forladt rummet.`, roomId);
+    this.handleMessage('System', `${username} har forladt rummet.`, roomId);
   }
 
   /**
@@ -193,7 +193,7 @@ class WebSocketService {
    * @param {string} roomId - The room ID.
    */
   handleDrawingData(data, roomId) {
-    this.io.to(roomId).emit("drawingData", data);
+    this.io.to(roomId).emit('drawingData', data);
   }
 
   /**

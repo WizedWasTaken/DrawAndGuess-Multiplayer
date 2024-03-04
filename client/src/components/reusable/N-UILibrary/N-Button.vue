@@ -2,16 +2,16 @@
 import { defineProps } from 'vue'
 
 /**
- * @param {String} backgroundColor - The background color of the button
- * @param {String} color - The text color of the button
- * @param {Boolean} disabled - Whether the button is disabled or not
- * @param {String} size - The size of the button
- * @param {Boolean} rounded - Whether the button is rounded or not
- * @param {Boolean} outline - Whether the button is outlined or not
- * @param {Boolean} border - Whether the button has a border or not
- * @param {Boolean} animated - Whether the button has an animated border or not
- * @param {String} icon - The icon of the button
- * @returns {Object} - The props object
+ * @param {string} backgroundColor - The background color of the button
+ * @param {string} color - The text color of the button
+ * @param {boolean} disabled - Whether the button is disabled or not
+ * @param {string} size - The size of the button
+ * @param {boolean} rounded - Whether the button is rounded or not
+ * @param {boolean} outline - Whether the button is outlined or not
+ * @param {boolean} border - Whether the button has a border or not
+ * @param {boolean} animated - Whether the button has an animated border or not
+ * @param {string} icon - The icon of the button
+ * @returns {object} - The props object
  *
  * @description This function defines the props for the NButton component
  * @example <NButton backgroundColor="red" color="white" size="large" rounded outline border animated icon="fas fa-plus">Click Me</NButton> />

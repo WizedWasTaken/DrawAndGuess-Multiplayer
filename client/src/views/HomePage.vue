@@ -19,17 +19,23 @@
 .title {
   font-size: 3rem;
   margin-bottom: 1rem;
-  background: linear-gradient(90deg, $color-primary, $color-secondary);
+  background: linear-gradient(90deg, $color-primary, $color-secondary, $color-primary);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
   font-weight: $font-weight-xlbold;
+  // text-shadow: 7px 1px 0px rgba(0, 0, 0, 0.141);
 }
 
 .subtitle {
   font-size: 1.5rem;
   color: $color-secondary;
   margin-bottom: 2rem;
+
+  &::selection {
+    background-color: $color-primary;
+    color: $color-background;
+  }
 }
 
 .start-button {
@@ -42,6 +48,7 @@
   border-radius: 0.5rem;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  color: white;
 
   &:hover {
     background-color: darken($color-primary, 10%);
@@ -49,6 +56,6 @@
 }
 
 .start-button:visited {
-  color: $color-background;
+  color: white;
 }
 </style>

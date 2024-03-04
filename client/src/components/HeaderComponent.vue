@@ -58,7 +58,7 @@ header {
         }
 
         &.router-link-exact-active {
-          color: $color-secondary;
+          color: $color-primary;
           font-weight: $font-weight-bold;
         }
       }

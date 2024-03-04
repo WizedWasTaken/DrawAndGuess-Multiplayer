@@ -3,9 +3,10 @@
 @import 'animations';
 
 body {
-  animation: backgroundChange 60s linear infinite;
+  animation: backgroundChange 120s linear infinite;
   color: $color-foreground;
   background: radial-gradient(circle, $color-background, $color-secondary);
+  opacity: 1;
   background-size: 400% 100%;
   font-family: 'Roboto', sans-serif;
   height: 100vh;

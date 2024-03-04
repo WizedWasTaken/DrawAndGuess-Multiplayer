@@ -73,6 +73,11 @@ onUnmounted(() => {
   window.removeEventListener('resize', adjustCanvasSize)
 })
 
+/**
+ * Function for starting the drawing process
+ * @param e - MouseEvent
+ * @returns void
+ */
 function startDrawing(e: MouseEvent) {
   e.preventDefault()
   if (props.drawable) {
@@ -81,6 +86,11 @@ function startDrawing(e: MouseEvent) {
   }
 }
 
+/**
+ * Draw on the canvas
+ * @param e - MouseEvent
+ * @returns void
+ */
 function draw(e: MouseEvent) {
   if (!drawing || !ctx || !canvas.value) return
 
@@ -109,10 +119,19 @@ function draw(e: MouseEvent) {
   }
 }
 
+/**
+ * Send drawing data to the server
+ * @param data - DrawingData
+ * @returns void
+ */
 function sendDrawingData(data: DrawingData) {
   webSocket.socket?.emit('drawingData', data, isIngame.roomId)
 }
 
+/**
+ * Stop drawing
+ * @returns void
+ */
 function stopDrawing() {
   if (!drawing || !ctx) return
   drawing = false
@@ -125,6 +144,11 @@ function stopDrawing() {
 
 let lastUserId: string | null = null
 
+/**
+ * Draw on the canvas
+ * @param data - DrawingData
+ * @returns void
+ */
 function drawOnCanvas(data: DrawingData) {
   if (!ctx) return
 
@@ -143,6 +167,11 @@ function drawOnCanvas(data: DrawingData) {
 
   lastUserId = data.userId
 }
+
+/**
+ * Adjust the canvas size
+ * @returns void
+ */
 function adjustCanvasSize() {
   if (canvas.value) {
     const rect = canvas.value.parentElement?.getBoundingClientRect()
@@ -164,6 +193,11 @@ webSocket.socket?.on('clearCanvas', () => {
   clearCanvas(true)
 })
 
+/**
+ * Clear the canvas
+ * @param fromSocket - boolean
+ * @returns void
+ */
 function clearCanvas(fromSocket = false) {
   if (ctx && canvas.value) {
     if (!fromSocket) {

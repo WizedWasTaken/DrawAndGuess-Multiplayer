@@ -1,17 +1,12 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router'
 
-// Imports
-// TODO: Wave good?
-import Waves from './components/WavesComponent.vue' // Import the waves component. (Used at bottom)
-import Header from './components/HeaderComponent.vue' // Import the header component.
 // import '@/util/mouseEffect' // Import the mouseEffect function.
 import { isChrome } from '@/util/checkIfChrome' // Check if user is using Chrome.
 </script>
 
 <template>
   <div class="wrapper">
-    <div class="cursor"></div>
     <div>
       <div v-if="isChrome" class="wrapper">
         <Header />
@@ -24,24 +19,10 @@ import { isChrome } from '@/util/checkIfChrome' // Check if user is using Chrome
         <h1>Brug Google Chrome din noob! 😉</h1>
       </div>
     </div>
-    <!-- TODO: Waves, yay or nay? -->
-    <!-- <Waves /> -->
   </div>
 </template>
 
 <style scoped lang="scss">
-/* TODO: Create a better glow, cursor effect. */
-.cursor {
-  position: absolute;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background: transparent;
-  pointer-events: none;
-  z-index: -1;
-  box-shadow: 0 0 10px 5px rgba(255, 255, 255, 0.5);
-}
-
 header {
   line-height: 1.5;
   max-height: 100vh;

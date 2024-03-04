@@ -74,14 +74,16 @@
 
 - **Redesign**
 
-  - Update color scheme.
+  - Update color scheme. (✅ **FINISHED**)
+
     - Use variables for colors throughout the code.
     - Brighten and make colors more engaging.
     - Consider adding color customization feature.
-  - Improve UI/UX.
-    - Make the interface less blocky and sharp.
-      - Add rounded corners for a more visually appealing look.
-    - Enhance clarity for potentially confusing aspects of the app.
+
+  - Improve UI/UX. (✅ **FINISHED**)
+    - Make the interface less blocky and sharp. (✅ **FINISHED**)
+      - Add rounded corners for a more visually appealing look. (✅ **FINISHED**)
+    - Enhance clarity for potentially confusing aspects of the app. (✅ **FINISHED**)
 
 - **Code Comments**
 
