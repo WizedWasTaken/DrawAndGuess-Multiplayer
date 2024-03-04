@@ -2,21 +2,14 @@
 import { RouterView } from 'vue-router'
 
 // Imports
-import Header from './components/HeaderComponent.vue'
-
-const isChrome = checkBrowser()
-
-function checkBrowser() {
-  const isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor)
-
-  if (!isChrome) {
-    document.body.classList.add('fast-blink')
-  }
-  return isChrome
-}
+import Waves from './components/WavesComponent.vue' // Import the waves component. (Used at bottom)
+import Header from './components/HeaderComponent.vue' // Import the header component.
+import '@/util/mouseEffect' // Import the mouseEffect function.
+import { isChrome } from '@/util/checkIfChrome' // Check if user is using Chrome.
 </script>
 
 <template>
+  <div class="cursor"></div>
   <div>
     <div v-if="isChrome">
       <Header />
@@ -27,9 +20,22 @@ function checkBrowser() {
       <h1>Brug Google Chrome din noob! 😉</h1>
     </div>
   </div>
+  <Waves />
 </template>
 
-<style scoped>
+<style scoped lang="scss">
+/* TODO: Create a better glow, cursor effect. */
+.cursor {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: transparent;
+  pointer-events: none;
+  z-index: -1;
+  box-shadow: 0 0 10px 5px rgba(255, 255, 255, 0.5);
+}
+
 header {
   line-height: 1.5;
   max-height: 100vh;
@@ -58,38 +64,11 @@ nav a.router-link-exact-active:hover {
 nav a {
   display: inline-block;
   padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
+  border-left: 1px solid var(--color-primary);
 }
 
 nav a:first-of-type {
   border: 0;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-
-    padding: 1rem 0;
-    margin-top: 1rem;
-  }
 }
 
 /* Ikke Chrome */
@@ -101,6 +80,7 @@ nav a:first-of-type {
   font-size: 2rem;
   color: red;
   text-align: center;
-  background-color: #f4f4f4;
+  background-color: hotpink;
+  animation: blink 100ms infinite;
 }
 </style>

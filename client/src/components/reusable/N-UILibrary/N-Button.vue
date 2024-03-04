@@ -1,6 +1,21 @@
 <script setup lang="ts">
 import { defineProps } from 'vue'
 
+/**
+ * @param {String} backgroundColor - The background color of the button
+ * @param {String} color - The text color of the button
+ * @param {Boolean} disabled - Whether the button is disabled or not
+ * @param {String} size - The size of the button
+ * @param {Boolean} rounded - Whether the button is rounded or not
+ * @param {Boolean} outline - Whether the button is outlined or not
+ * @param {Boolean} border - Whether the button has a border or not
+ * @param {Boolean} animated - Whether the button has an animated border or not
+ * @param {String} icon - The icon of the button
+ * @returns {Object} - The props object
+ *
+ * @description This function defines the props for the NButton component
+ * @example <NButton backgroundColor="red" color="white" size="large" rounded outline border animated icon="fas fa-plus">Click Me</NButton> />
+ */
 let props = defineProps({
   backgroundColor: {
     type: String,
@@ -43,6 +58,7 @@ let props = defineProps({
 console.log(props)
 </script>
 
+<!-- HTML for button -->
 <template>
   <button
     :class="[
@@ -73,6 +89,7 @@ console.log(props)
   font-size: 1.2rem;
   border-radius: 5px;
   transition: all 0.3s;
+  width: fit-content;
   outline: none;
   border: 0;
   background-color: var(--button-background-color);
@@ -115,9 +132,8 @@ console.log(props)
     border: 1px solid currentColor;
   }
 
+  // TODO: Look at SCSS mixin's for animations & transitions, and background colors.
   &--animated {
-    position: relative;
-    overflow: hidden;
     border: 3px solid transparent;
     // var(--button-background-color) er en CSS variabel sat i inline styling, baseret på props.
     background:
@@ -132,30 +148,10 @@ console.log(props)
     background-size:
       100% 100%,
       200% 200%;
-    animation: animatedBorder 4s infinite linear;
+    animation: animatedBorder 5s infinite linear;
     transition: all 0.3s ease-in-out;
 
-    &:hover {
-      color: var(--button-background-color);
-    }
-  }
-}
-
-@keyframes animatedBorder {
-  0% {
-    background-position:
-      0% 0%,
-      0% 0%;
-  }
-  50% {
-    background-position:
-      0% 0%,
-      100% 100%;
-  }
-  100% {
-    background-position:
-      0% 0%,
-      0% 0%;
+    // TODO: Special hover effect?
   }
 }
 </style>

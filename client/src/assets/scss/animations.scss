@@ -1,0 +1,47 @@
+// Opacity blinking animation.
+// Used in "Get chrome" page if user is using Firefox.
+@keyframes blink {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+// Animated border animation.
+// Usage:
+// Animated border button, in N-Button component.
+@keyframes animatedBorder {
+  0% {
+    background-position:
+      0% 0%,
+      0% 0%;
+  }
+  50% {
+    background-position:
+      0% 0%,
+      100% 100%;
+  }
+  100% {
+    background-position:
+      0% 0%,
+      0% 0%;
+  }
+}
+
+// Backgruond wave animation.
+@keyframes move_wave {
+  0% {
+    transform: translateX(0) translateZ(0) scaleY(1);
+  }
+  50% {
+    transform: translateX(-25%) translateZ(0) scaleY(0.55);
+  }
+  100% {
+    transform: translateX(-50%) translateZ(0) scaleY(1);
+  }
+}

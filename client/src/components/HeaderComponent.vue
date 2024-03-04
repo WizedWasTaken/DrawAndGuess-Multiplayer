@@ -44,9 +44,8 @@ header {
       a {
         display: inline-block;
         padding: 0 1rem;
-        border-left: 1px solid $color-border;
+        border-left: 1px solid $color-primary;
         font-size: 20px;
-        color: white;
         text-decoration: none;
 
         &:first-of-type {
@@ -54,7 +53,8 @@ header {
         }
 
         &.router-link-exact-active {
-          color: $active-link;
+          color: $color-secondary;
+          font-weight: $font-weight-bold;
         }
       }
     }

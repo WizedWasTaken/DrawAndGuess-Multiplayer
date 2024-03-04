@@ -1,7 +1,7 @@
 <template>
   <form>
     <h1>Tilslut dig et rum</h1>
-    <N-Input v-model="roomId" :placeholder="'Enter room ID'" />
+    <input v-model="roomId" :placeholder="'Enter room ID'" />
     <div class="wrapper">
       <N-Button
         :backgroundColor="'darkred'"
@@ -111,9 +111,22 @@ form {
   }
 
   input {
+    padding: 10px;
     margin-bottom: 1rem;
-    padding: 0.5rem;
-    font-size: 1rem;
+    width: 100%;
+    max-width: 300px;
+    border: 2px solid $color-primary;
+    border-radius: 5px;
+    background-color: $color-background;
+    color: $color-foreground;
+
+    &:focus {
+      outline: none;
+    }
+
+    &::placeholder {
+      color: $color-foreground;
+    }
   }
 
   .wrapper {

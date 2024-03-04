@@ -1,6 +1,11 @@
-$bg-color: #666666;
-$text-color: #d3d3d3;
-$primary-color: #f1356d;
+$color-primary: #23a823; // Primary color for your website, used for buttons, headers, etc.
+$color-secondary: #55beb6; // Secondary color for your website, used for secondary buttons, highlights, etc.
+$color-background: #014db3; // Background color for your website
+$color-foreground: #c5c5c5; // Foreground color for your website, used for text, icons, etc.
+$color-error: #e74c3c; // Error color, used for error messages, warning icons, etc.
+$color-success: #27ae60; // Success color, used for success messages, success icons, etc.
+$color-info: #2980b9; // Info color, used for informational messages, info icons, etc.
+$color-draw: #f1c40f; // Draw color, used for drawing tools, drawing icons, etc.
+$color-guess: #9b59b6; // Guess color, used for guess tools, guess icons, etc.
 
-$color-border: #333;
-$active-link: #f1356d;
+$font-weight-bold: 700; // Bold font weight

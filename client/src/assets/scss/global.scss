@@ -1,2 +1,43 @@
-// Variabler
-@forward 'variables';
+// Variables are being imported from the vite.config.ts file.
+@import 'css-reset';
+@import 'animations';
+
+body {
+  background-color: $color-background;
+  color: $color-foreground;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: $color-primary;
+}
+
+a {
+  color: $color-primary;
+  text-decoration: none;
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background-color: $color-primary;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+  &:hover {
+    background-color: darken($color-primary, 10%);
+  }
+}
+
+p {
+  color: $color-foreground;
+  font-size: 1.2rem;
+}
