@@ -3,41 +3,16 @@
 @import 'animations';
 
 body {
-  background-color: $color-background;
+  animation: backgroundChange 60s linear infinite;
   color: $color-foreground;
+  background: radial-gradient(circle, $color-background, $color-secondary);
+  background-size: 400% 100%;
+  font-family: 'Roboto', sans-serif;
+  height: 100vh;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  color: $color-primary;
-}
-
-a {
-  color: $color-primary;
-  text-decoration: none;
-  &:hover {
-    text-decoration: underline;
-  }
-}
-
-button {
-  cursor: pointer;
-  border: none;
-  background-color: $color-primary;
-  color: white;
-  padding: 10px 20px;
-  border-radius: 5px;
-  transition: background-color 0.3s ease;
-  &:hover {
-    background-color: darken($color-primary, 10%);
-  }
-}
-
-p {
-  color: $color-foreground;
-  font-size: 1.2rem;
+#app {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }

@@ -44,12 +44,17 @@ header {
       a {
         display: inline-block;
         padding: 0 1rem;
-        border-left: 1px solid $color-primary;
+        border-left: 1px solid $color-foreground;
         font-size: 20px;
         text-decoration: none;
+        font-weight: $font-weight-normal;
 
         &:first-of-type {
           border: 0;
+        }
+
+        &:visited {
+          color: $color-foreground;
         }
 
         &.router-link-exact-active {

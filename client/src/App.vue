@@ -4,23 +4,28 @@ import { RouterView } from 'vue-router'
 // Imports
 import Waves from './components/WavesComponent.vue' // Import the waves component. (Used at bottom)
 import Header from './components/HeaderComponent.vue' // Import the header component.
-import '@/util/mouseEffect' // Import the mouseEffect function.
+// import '@/util/mouseEffect' // Import the mouseEffect function.
 import { isChrome } from '@/util/checkIfChrome' // Check if user is using Chrome.
 </script>
 
 <template>
-  <div class="cursor"></div>
-  <div>
-    <div v-if="isChrome">
-      <Header />
+  <div class="wrapper">
+    <div class="cursor"></div>
+    <div>
+      <div v-if="isChrome" class="wrapper">
+        <Header />
 
-      <RouterView />
+        <div class="router-view">
+          <RouterView />
+        </div>
+      </div>
+      <div class="not-chrome" v-else>
+        <h1>Brug Google Chrome din noob! 😉</h1>
+      </div>
     </div>
-    <div class="not-chrome" v-else>
-      <h1>Brug Google Chrome din noob! 😉</h1>
-    </div>
+    <!-- TODO: Waves, yay or nay? -->
+    <!-- <Waves /> -->
   </div>
-  <Waves />
 </template>
 
 <style scoped lang="scss">
@@ -41,6 +46,20 @@ header {
   max-height: 100vh;
 }
 
+.wrapper {
+  height: 100vh;
+  color: var(--color-foreground);
+  display: flex;
+  flex-direction: column;
+}
+
+.router-view {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+}
+
 .logo {
   display: block;
   margin: 0 auto 2rem;
@@ -54,7 +73,7 @@ nav {
 }
 
 nav a.router-link-exact-active {
-  color: var(--color-text);
+  color: $color-foreground;
 }
 
 nav a.router-link-exact-active:hover {
