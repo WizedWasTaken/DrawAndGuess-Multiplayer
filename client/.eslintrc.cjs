@@ -17,8 +17,8 @@ module.exports = {
   rules: {
     'jsdoc/check-alignment': 'error', // Ensures JSDoc comments are aligned
     'jsdoc/check-param-names': 'error', // Checks parameter names match documentation
-    'jsdoc/check-tag-names': 'error', // Ensures JSDoc tags are valid
-    'jsdoc/check-types': 'error', // Ensures JSDoc types are valid
+    'jsdoc/check-tag-names': 'error',
+    'jsdoc/check-types': 'error',
     'jsdoc/require-jsdoc': [
       'error',
       {

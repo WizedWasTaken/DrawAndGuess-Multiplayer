@@ -24,7 +24,6 @@
   background-clip: text;
   -webkit-text-fill-color: transparent;
   font-weight: $font-weight-xlbold;
-  // text-shadow: 7px 1px 0px rgba(0, 0, 0, 0.141);
 }
 
 .subtitle {

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import Header from '@/components/HeaderComponent.vue'
 import { RouterView } from 'vue-router'
 import { isChrome } from '@/util/checkIfChrome' // Check if user is using Chrome.
 </script>

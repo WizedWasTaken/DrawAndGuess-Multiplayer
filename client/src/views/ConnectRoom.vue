@@ -132,7 +132,7 @@ form {
   .wrapper {
     display: flex;
     justify-content: space-around;
-    width: 30%;
+    width: 120%; // 120% to make sure the buttons are not too close to the edge
   }
 }
 </style>
