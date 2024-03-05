@@ -1,3 +1,5 @@
+[Go Back](../../readMe.md)
+
 # Todo List for the "Draw and guess" multiplayer, browser-based game. 💪🏿💪🏿
 
 ## Client / Server
@@ -100,6 +102,7 @@
 ## Server
 
 - **Code Comments**
+
   - Add comprehensive code comments to each component/view.
   - Use JSDoc for code comments.
     - Assume the developer has the "Better Comments" VS Code extension for enhanced comment formatting (e.g., "TODO:", "!").
