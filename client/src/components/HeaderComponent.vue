@@ -10,11 +10,14 @@
 </template>
 
 <script setup lang="ts">
+// Imports
 import { useIsIngameStore } from '@/stores/useIsIngameStore'
 import { computed } from 'vue'
 
+// Checking if user is in a lobby
 const isIngameStore = useIsIngameStore()
 
+// Checking if game has started
 const isGameStarted = computed(() => isIngameStore.isIngame)
 </script>
 

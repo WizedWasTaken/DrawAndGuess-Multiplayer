@@ -46,7 +46,6 @@ class WebSocketService {
 
       // Clear Canvas event
       socket.on('clearCanvas', (roomId) => {
-        // TODO: clearCanvas might be a bit buggy.
         this.io.to(roomId).emit('clearCanvas');
       });
 
@@ -209,7 +208,6 @@ class WebSocketService {
       return;
     }
 
-    // TODO: Optimize this
     Object.keys(this.rooms).forEach((roomId) => {
       // Will probably never be used
       const room = this.rooms[roomId];

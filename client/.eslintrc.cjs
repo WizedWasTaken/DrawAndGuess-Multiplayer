@@ -15,14 +15,13 @@ module.exports = {
     ecmaVersion: 'latest'
   },
   rules: {
-    'jsdoc/check-alignment': 'error', // Ensures JSDoc comments are aligned
-    'jsdoc/check-param-names': 'error', // Checks parameter names match documentation
+    'jsdoc/check-alignment': 'error',
+    'jsdoc/check-param-names': 'error',
     'jsdoc/check-tag-names': 'error',
     'jsdoc/check-types': 'error',
     'jsdoc/require-jsdoc': [
       'error',
       {
-        // Requires JSDoc comments for documentation
         require: {
           FunctionDeclaration: true,
           MethodDefinition: true,

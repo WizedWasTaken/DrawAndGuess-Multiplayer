@@ -85,23 +85,21 @@
       - Add rounded corners for a more visually appealing look. (✅ **FINISHED**)
     - Enhance clarity for potentially confusing aspects of the app. (✅ **FINISHED**)
 
-- **Code Comments**
+- **Code Comments** (✅ **FINISHED**)
 
   - Add comprehensive code comments to each component/view.
   - Use JSDoc for code comments.
     - Assume the developer has the "Better Comments" VS Code extension for enhanced comment formatting (e.g., "TODO:", "!").
 
-- **Clean up code**
-  - Organize and refactor messy code.
+- **Clean up code** (✅ **FINISHED**)
+  - Organize and refactor messy code. (✅ **FINISHED**)
   - Create reusable components for relevant code sections (e.g., Button component).
     - Move reusable components to a separate components folder.
-      - Commit the reusable components to GitHub for potential use in other projects.
-    - Ensure reusable components have customizable props with default values.
+    - Ensure reusable components have customizable props with default values. (✅ **FINISHED**)
 
 ## Server
 
 - **Code Comments**
-
   - Add comprehensive code comments to each component/view.
   - Use JSDoc for code comments.
     - Assume the developer has the "Better Comments" VS Code extension for enhanced comment formatting (e.g., "TODO:", "!").
