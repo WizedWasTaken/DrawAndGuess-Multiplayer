@@ -147,7 +147,6 @@ function stopDrawing() {
  * @returns void
  */
 function drawOnCanvas(data: DrawingData) {
-  console.log('drawOnCanvas')
   if (!ctx) return
   // TODO: Draw on the canvas is bugged, it makes very weird lines. Fix this.f
 
@@ -160,32 +159,42 @@ function drawOnCanvas(data: DrawingData) {
 }
 
 const drawingData: DrawingData[] = []
+let countdown = true
 
 /**
  * Adjust the canvas size
  * @returns void
  */
 function adjustCanvasSize() {
-  if (canvas.value) {
-    const parentElement = canvas.value.parentElement
-    if (parentElement) {
-      const scale = window.devicePixelRatio
+  if (countdown) {
+    if (canvas.value) {
+      const parentElement = canvas.value.parentElement
+      if (parentElement) {
+        const scale = window.devicePixelRatio
 
-      const width = parentElement.clientWidth
-      const height = width * (16 / 16) // Adjust the aspect ratio as needed
+        const width = parentElement.clientWidth
+        const height = width * (1 / 1) // Adjust the aspect ratio as needed
 
-      canvas.value.style.width = width + 'px'
-      canvas.value.style.height = height + 'px'
+        canvas.value.style.width = width + 'px'
+        canvas.value.style.height = height + 'px'
 
-      canvas.value.width = width * scale
-      canvas.value.height = height * scale
+        canvas.value.width = width * scale
+        canvas.value.height = height * scale
 
-      ctx?.scale(scale, scale)
+        ctx?.scale(scale, scale)
 
-      drawingData.forEach((data) => {
-        drawOnCanvas(data)
-      })
+        drawingData.forEach((data) => {
+          drawOnCanvas(data)
+        })
+
+        countdown = true
+        setTimeout(() => {
+          countdown = false
+        }, 1000)
+      }
     }
+  } else {
+    return
   }
 }
 

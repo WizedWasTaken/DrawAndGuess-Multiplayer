@@ -4,18 +4,20 @@
     <input v-model="roomId" :placeholder="'Enter room ID'" />
     <div class="wrapper">
       <N-Button
-        :backgroundColor="'darkred'"
+        :backgroundColor="'#8b000069'"
         :color="'#EDDDD4'"
         :rounded="true"
+        :size="'small'"
         @click.prevent="joinRoom"
         >Tilslut spil</N-Button
       >
       <N-Button
-        :backgroundColor="'#197278'"
+        :backgroundColor="'#197278bd'"
         :color="'#EDDDD4'"
         :rounded="true"
         :border="true"
         :animated="true"
+        :size="'small'"
         @click.prevent="hostGame"
         >Opret nyt spil</N-Button
       >
@@ -84,7 +86,6 @@ const hostGame = async (): Promise<void> => {
  * @returns {void}
  */
 function redirectToGamepage(id: string): void {
-  console.log('Redirect to gamepage: ', id)
   router.push(`/game/${id}`)
 }
 
@@ -104,20 +105,29 @@ form {
   align-items: center;
   justify-content: center;
   max-width: 1200px;
+  width: 300px;
   margin: 0 auto;
 
   h1 {
     margin-bottom: 1rem;
   }
 
+  button {
+    font-weight: $font-weight-bold;
+
+    &:hover {
+      background-color: darken($color-primary, 30%);
+    }
+  }
+
   input {
     padding: 10px;
     margin-bottom: 1rem;
     width: 100%;
-    max-width: 300px;
-    border: 2px solid $color-primary;
-    border-radius: 5px;
-    background-color: $color-background;
+    border: 3px solid;
+    border-image: linear-gradient(to bottom right, $color-primary, $color-secondary);
+    border-image-slice: 1;
+    background-color: transparent;
     color: $color-foreground;
 
     &:focus {
@@ -131,8 +141,8 @@ form {
 
   .wrapper {
     display: flex;
-    justify-content: space-around;
-    width: 120%; // 120% to make sure the buttons are not too close to the edge
+    justify-content: space-between;
+    width: 100%;
   }
 }
 </style>

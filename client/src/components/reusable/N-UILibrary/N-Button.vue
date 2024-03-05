@@ -54,8 +54,6 @@ let props = defineProps({
     default: ''
   }
 })
-
-console.log(props)
 </script>
 
 <!-- HTML for button -->
