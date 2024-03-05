@@ -64,7 +64,6 @@ onMounted(() => {
   }
 
   webSocket.socket?.on('drawingData', (data) => {
-    console.log('drawingData', data)
     drawOnCanvas(data)
   })
 })
@@ -142,31 +141,25 @@ function stopDrawing() {
   }
 }
 
-let lastUserId: string | null = null
-
 /**
  * Draw on the canvas
  * @param data - DrawingData
  * @returns void
  */
 function drawOnCanvas(data: DrawingData) {
+  console.log('drawOnCanvas')
   if (!ctx) return
-
-  console.log(data.userId, 'vs', lastUserId)
-  // If the drawing data is from a different user, start a new path
-  if (data.userId !== lastUserId) {
-    console.log('New path')
-    ctx.beginPath()
-    ctx.moveTo(data.x, data.y)
-  }
+  // TODO: Draw on the canvas is bugged, it makes very weird lines. Fix this.f
 
   ctx.lineTo(data.x, data.y)
   ctx.strokeStyle = data.color
   ctx.lineWidth = data.brushSize
   ctx.stroke()
 
-  lastUserId = data.userId
+  drawingData.push(data)
 }
+
+const drawingData: DrawingData[] = []
 
 /**
  * Adjust the canvas size
@@ -174,17 +167,24 @@ function drawOnCanvas(data: DrawingData) {
  */
 function adjustCanvasSize() {
   if (canvas.value) {
-    const rect = canvas.value.parentElement?.getBoundingClientRect()
-    if (rect) {
+    const parentElement = canvas.value.parentElement
+    if (parentElement) {
       const scale = window.devicePixelRatio
 
-      canvas.value.style.width = rect.width + 'px'
-      canvas.value.style.height = rect.height + 'px'
+      const width = parentElement.clientWidth
+      const height = width * (16 / 16) // Adjust the aspect ratio as needed
 
-      canvas.value.width = rect.width * scale
-      canvas.value.height = rect.height * scale
+      canvas.value.style.width = width + 'px'
+      canvas.value.style.height = height + 'px'
+
+      canvas.value.width = width * scale
+      canvas.value.height = height * scale
 
       ctx?.scale(scale, scale)
+
+      drawingData.forEach((data) => {
+        drawOnCanvas(data)
+      })
     }
   }
 }
@@ -235,7 +235,7 @@ function clearCanvas(fromSocket = false) {
   </div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .paint-container {
   width: 100%;
   height: 100%;
@@ -247,11 +247,11 @@ function clearCanvas(fromSocket = false) {
 }
 
 #canvas {
-  border: 4px solid #61dafb; /* Bright border color for contrast */
-  background-color: white; /* Ensure canvas background is white */
+  border: 4px solid #61dafb;
+  background-color: white;
   width: 100%;
-  height: 90%; /* Adjust height to leave space for controls */
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for the canvas */
+  height: 90%;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
   cursor: crosshair;
 }
 
@@ -259,11 +259,10 @@ function clearCanvas(fromSocket = false) {
   display: flex;
   justify-content: center;
   gap: 10px;
-  padding: 10px; /* Padding inside the controls area */
-  background: #20232a; /* Dark background for controls area */
-  border-radius: 8px; /* Rounded corners for controls area */
-  width: 100%; /* Full width for alignment */
-  box-sizing: border-box; /* Ensure padding doesn't increase width */
+  padding: 10px;
+  border-radius: 8px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 input[type='color'] {
